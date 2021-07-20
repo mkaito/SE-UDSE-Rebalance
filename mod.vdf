@@ -1,0 +1,11 @@
+"workshopitem"
+{
+	"appid"		"244850"
+	"publishedfileid"		"2552601155"
+	"contentfolder"		"/home/chris/dev/spaceengineers/Mods/UDSERebalance/Output"
+	"previewfile"		"/home/chris/dev/spaceengineers/Mods/UDSERebalance/Output/preview.jpg"
+	"visibility"		"3"
+	"title"		"UDSE Rebalance"
+	"description"		"An opinionated set of block adjustments"
+	"changenote"		"N/A"
+}
