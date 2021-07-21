@@ -1,6 +1,6 @@
-﻿using System.Linq;
-using Sandbox.Common.ObjectBuilders;
+﻿using Sandbox.Common.ObjectBuilders;
 using Sandbox.Definitions;
+using System.Linq;
 using VRage.Game;
 using VRage.Game.Components;
 
@@ -22,9 +22,9 @@ namespace mkaito.QoL
             const string turretTexturePath = @"\Textures\GUI\Screens\turret_overlay.dds";
             var camTextureFullPath = ModContext.ModPath + camTexturePath;
             var turretTextureFullPath = ModContext.ModPath + turretTexturePath;
-            
-            const float smallWheelMult = 6;
-            const float largeWheelMult = 18;
+
+            const float smallWheelMult = 3;
+            const float largeWheelMult = 12;
 
             foreach (var myCubeBlockDefinition in MyDefinitionManager.Static.GetAllDefinitions()
                         .Select(myDefinitionBase => myDefinitionBase as MyCubeBlockDefinition)
@@ -41,10 +41,10 @@ namespace mkaito.QoL
                     var def = myCubeBlockDefinition as MyCameraBlockDefinition;
                     if (def == null)
                         continue;
-                    
+
                     def.OverlayTexture = camTextureFullPath;
                 }
-                
+
                 if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_OxygenFarm))
                 {
                     var def = myCubeBlockDefinition as MyOxygenFarmDefinition;
@@ -53,19 +53,19 @@ namespace mkaito.QoL
 
                     def.MaxGasOutput *= 4f;
                 }
-                
+
                 // Turret Overlay
-                else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_InteriorTurret) 
+                else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_InteriorTurret)
                         || myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_LargeGatlingTurret)
                         || myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_LargeMissileTurret))
                 {
                     var def = myCubeBlockDefinition as MyLargeTurretBaseDefinition;
                     if (def == null)
                         continue;
-                            
+
                     def.OverlayTexture = turretTextureFullPath;
                 }
-                
+
                 // Wheel Suspension
                 else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_MotorSuspension))
                 {
@@ -78,7 +78,7 @@ namespace mkaito.QoL
                     def.PropulsionForce *= mult;
                     def.RequiredPowerInput *= (mult / 8);
                 }
-                
+
                 // Ore Detector
                 else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_OreDetector))
                 {
@@ -86,9 +86,9 @@ namespace mkaito.QoL
                     if (def == null)
                         continue;
 
-                    def.MaximumRange *= 3;
+                    def.MaximumRange *= 2;
                 }
-                
+
                 // Laser Antenna
                 else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_LaserAntenna))
                 {
@@ -98,7 +98,7 @@ namespace mkaito.QoL
 
                     def.PowerInputLasing /= 10;
                 }
-                
+
                 // Ship Welder
                 else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_ShipWelder))
                 {
@@ -106,9 +106,9 @@ namespace mkaito.QoL
                     if (def == null)
                         continue;
 
-                    def.SensorRadius *= 1.2f;
+                    def.SensorRadius *= 1.1f;
                 }
-                
+
                 // Ship Grinder
                 else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_ShipGrinder))
                 {
@@ -118,7 +118,7 @@ namespace mkaito.QoL
 
                     def.SensorRadius *= 1.25f;
                 }
-                
+
                 // Ship Drill
                 else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_Drill))
                 {
@@ -126,56 +126,61 @@ namespace mkaito.QoL
                     if (def == null)
                         continue;
 
-                    def.CutOutRadius *= 1.4f;
+                    def.CutOutRadius *= 1.3f;
                 }
-                
+
                 // Thrusters
-                else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_Thrust))
-                {
-                    var def = myCubeBlockDefinition as MyThrustDefinition;
-                    if (def == null)
-                        continue;
-                    
-                    // MES NPC-only thrusters
-                    if (myCubeBlockDefinition.Id.SubtypeId.String.StartsWith("MES-NPC-"))
-                        continue;
-                
-                    // Rider's Helicarrier Thrusters
-                    if (def.Id.SubtypeId.String.Contains("Heli"))
-                        continue;
+                //else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_Thrust))
+                //{
+                //    var def = myCubeBlockDefinition as MyThrustDefinition;
+                //    if (def == null)
+                //        continue;
 
-                    float mult;
+                //    // MES NPC-only thrusters
+                //    if (myCubeBlockDefinition.Id.SubtypeId.String.StartsWith("MES-NPC-"))
+                //        continue;
 
-                    switch (def.ThrusterType.String)
-                    {
-                        case "Hydrogen":
-                            mult = 2f;
-                            def.ForceMagnitude *= mult;
-                            def.FuelConverter.Efficiency *= 1f / (mult * 2);
-                            break;
-                        case "Ion":
-                            mult = 1.2f;
-                            def.ForceMagnitude *= mult;
-                            def.MaxPowerConsumption *= mult * 2;
-                            break;
-                        case "Atmospheric":
-                            mult = 1.2f;
-                            def.ForceMagnitude *= mult;
-                            def.MaxPowerConsumption *= mult * 2;
-                            break;
-                    }
-                }
-                
+                //    // Rider's Helicarrier Thrusters
+                //    if (def.Id.SubtypeId.String.Contains("Heli"))
+                //        continue;
+
+                //    float mult;
+                //    var largeVariant = def.BlockPairName.StartsWith("Large");
+
+                //    // Hydrogen is more powerful, but uses more fuel.
+                //    // Atmo and Ion are both nerfed, but use less power.
+                //    // Large variants are significantly more powerful and efficient
+                //    // than small variants.
+                //    switch (def.ThrusterType.String)
+                //    {
+                //        case "Hydrogen":
+                //            mult = 1.2f;
+                //            def.ForceMagnitude *= largeVariant ? 2 * mult : mult;
+                //            def.FuelConverter.Efficiency *= 1f / (mult * (largeVariant ? 2 : 4));
+                //            break;
+                //        case "Ion":
+                //            mult = 0.8f;
+                //            def.ForceMagnitude *= largeVariant ? mult : 2 * mult;
+                //            def.MaxPowerConsumption *= mult * (largeVariant ? 1.2f : 2);
+                //            break;
+                //        case "Atmospheric":
+                //            mult = 0.6f;
+                //            def.ForceMagnitude *= largeVariant ? mult : 2 * mult;
+                //            def.MaxPowerConsumption *= mult * (largeVariant ? 1.2f : 2);
+                //            break;
+                //    }
+                //}
+
                 // Hydrogen Power
-                // else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_HydrogenEngine))
-                // {
-                //     var def = myCubeBlockDefinition as MyHydrogenEngineDefinition;
-                //     if (def == null)
-                //         continue;
+                //else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_HydrogenEngine))
+                //{
+                //    var def = myCubeBlockDefinition as MyHydrogenEngineDefinition;
+                //    if (def == null)
+                //        continue;
 
-                //     def.FuelCapacity *= 3f;
-                //     def.MaxPowerOutput *= 3f;
-                // }
+                //    def.FuelCapacity *= 3f;
+                //    def.MaxPowerOutput *= 3f;
+                //}
             }
         }
     }
