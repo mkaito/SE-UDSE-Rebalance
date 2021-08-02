@@ -86,7 +86,7 @@ namespace mkaito.QoL
                     if (def == null)
                         continue;
 
-                    def.MaximumRange *= 2;
+                    def.MaximumRange *= 4;
                 }
 
                 // Laser Antenna
