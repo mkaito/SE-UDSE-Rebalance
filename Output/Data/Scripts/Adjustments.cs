@@ -1,1 +1,1 @@
-../../../Scripts/UDSERebalance/Adjustments.cs
+C:/Users/chris/source/repos/SE/Mods/UDSERebalance/Scripts/UDSERebalance/Adjustments.cs

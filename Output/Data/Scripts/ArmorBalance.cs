@@ -1,1 +1,1 @@
-../../../Scripts/UDSERebalance/ArmorBalance.cs
+C:/Users/chris/source/repos/SE/Mods/UDSERebalance/Scripts/UDSERebalance/ArmorBalance.cs

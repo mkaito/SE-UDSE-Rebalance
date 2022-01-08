@@ -19,10 +19,14 @@ namespace enenra.ArmorBalance
         public const float heavyArmorSmallDamageMod = 0.5f;
         public const float heavyArmorSmallDeformationMod = 0.15f;
 
-        private bool isInit = false;
+        private bool initDone = false;
 
         private void DoWork()
         {
+            if (initDone)
+                return;
+            initDone = true;
+
             foreach (MyDefinitionBase def in MyDefinitionManager.Static.GetAllDefinitions())
             {
                 MyCubeBlockDefinition blockDef = def as MyCubeBlockDefinition;
