@@ -1,31 +1,30 @@
 ﻿using Sandbox.Definitions;
-using Sandbox.ModAPI;
 using VRage.Game;
 using VRage.Game.Components;
 
 // Code is based on Gauge's Balanced Deformation code, but heavily modified for more control. 
-namespace enenra.ArmorBalance
+namespace UDSERebalance
 {
     [MySessionComponentDescriptor(MyUpdateOrder.NoUpdate)]
     public class ArmorBalance : MySessionComponentBase
     {
-        public const float lightArmorLargeDamageMod = 0.5f;
-        public const float lightArmorLargeDeformationMod = 0.2f;
-        public const float lightArmorSmallDamageMod = 0.5f;
-        public const float lightArmorSmallDeformationMod = 0.2f;
+        private const float LightArmorLargeDamageMod = 0.5f;
+        private const float LightArmorLargeDeformationMod = 0.2f;
+        private const float LightArmorSmallDamageMod = 0.5f;
+        private const float LightArmorSmallDeformationMod = 0.2f;
 
-        public const float heavyArmorLargeDamageMod = 0.5f;
-        public const float heavyArmorLargeDeformationMod = 0.15f;
-        public const float heavyArmorSmallDamageMod = 0.5f;
-        public const float heavyArmorSmallDeformationMod = 0.15f;
+        private const float HeavyArmorLargeDamageMod = 0.5f;
+        private const float HeavyArmorLargeDeformationMod = 0.15f;
+        private const float HeavyArmorSmallDamageMod = 0.5f;
+        private const float HeavyArmorSmallDeformationMod = 0.15f;
 
-        private bool initDone = false;
+        private bool _initDone;
 
         private void DoWork()
         {
-            if (initDone)
+            if (_initDone)
                 return;
-            initDone = true;
+            _initDone = true;
 
             foreach (MyDefinitionBase def in MyDefinitionManager.Static.GetAllDefinitions())
             {
@@ -39,14 +38,14 @@ namespace enenra.ArmorBalance
                 {
                     if (blockDef.CubeSize == MyCubeSize.Large)
                     {
-                        blockDef.GeneralDamageMultiplier = lightArmorLargeDamageMod;
-                        blockDef.DeformationRatio = lightArmorLargeDeformationMod;
+                        blockDef.GeneralDamageMultiplier = LightArmorLargeDamageMod;
+                        blockDef.DeformationRatio = LightArmorLargeDeformationMod;
                     }
 
                     if (blockDef.CubeSize == MyCubeSize.Small)
                     {
-                        blockDef.GeneralDamageMultiplier = lightArmorSmallDamageMod;
-                        blockDef.DeformationRatio = lightArmorSmallDeformationMod;
+                        blockDef.GeneralDamageMultiplier = LightArmorSmallDamageMod;
+                        blockDef.DeformationRatio = LightArmorSmallDeformationMod;
                     }
                 }
 
@@ -54,14 +53,14 @@ namespace enenra.ArmorBalance
                 {
                     if (blockDef.CubeSize == MyCubeSize.Large)
                     {
-                        blockDef.GeneralDamageMultiplier = heavyArmorLargeDamageMod;
-                        blockDef.DeformationRatio = heavyArmorLargeDeformationMod;
+                        blockDef.GeneralDamageMultiplier = HeavyArmorLargeDamageMod;
+                        blockDef.DeformationRatio = HeavyArmorLargeDeformationMod;
                     }
 
                     if (blockDef.CubeSize == MyCubeSize.Small)
                     {
-                        blockDef.GeneralDamageMultiplier = heavyArmorSmallDamageMod;
-                        blockDef.DeformationRatio = heavyArmorSmallDeformationMod;
+                        blockDef.GeneralDamageMultiplier = HeavyArmorSmallDamageMod;
+                        blockDef.DeformationRatio = HeavyArmorSmallDeformationMod;
                     }
                 }
             }

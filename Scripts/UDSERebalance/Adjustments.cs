@@ -1,24 +1,28 @@
-﻿using Sandbox.Common.ObjectBuilders;
+﻿using System;
+using System.Linq;
+using Sandbox.Common.ObjectBuilders;
 using Sandbox.Definitions;
 using Sandbox.Game.EntityComponents;
-using System.Linq;
 using VRage.Game;
 using VRage.Game.Components;
 using VRageMath;
 
-namespace mkaito.QoL
+// ReSharper disable IdentifierTypo
+namespace UDSERebalance
+// ReSharper restore IdentifierTypo
 {
     [MySessionComponentDescriptor(MyUpdateOrder.NoUpdate)]
-    public class _QoLAdjustments : MySessionComponentBase
+    public class QoLAdjustments : MySessionComponentBase
     {
-        bool initDone = false;
+        private bool _initDone;
         public override void LoadData()
         {
-            if (initDone)
-                return;
-            initDone = true;
 
-            // Camera textures courtesy of enenra of AQD fame
+            if (_initDone)
+                return;
+            _initDone = true;
+
+            // Camera textures courtesy of Enenra of AQD fame
             const string camTexturePath = @"\Textures\GUI\Screens\camera_overlay.dds";
             const string turretTexturePath = @"\Textures\GUI\Screens\turret_overlay.dds";
             var camTextureFullPath = ModContext.ModPath + camTexturePath;
@@ -33,21 +37,23 @@ namespace mkaito.QoL
                 hydrogenDef.EnergyDensity = 0.004668f;
 
             // Player character adjustments
-            foreach (var myCharacterDefinition in MyDefinitionManager.Static.Characters.Where(def => def.UsableByPlayer))
+            // Skip if save name contains "Creative"
+            if (!Session.Name.Contains("Creative"))
             {
-                myCharacterDefinition.Context = (MyModContext)ModContext;
+                foreach (var myCharacterDefinition in MyDefinitionManager.Static.Characters.Where(def => def.UsableByPlayer))
+                {
+                    // Nerf the jetpack in gravity
+                    myCharacterDefinition.Jetpack.ThrustProperties.ForceMagnitude = 1800;
+                    myCharacterDefinition.Jetpack.ThrustProperties.SlowdownFactor = 1;
+                    myCharacterDefinition.Jetpack.ThrustProperties.MinPowerConsumption = 0.0000021666666666666666666666666667f;
+                    myCharacterDefinition.Jetpack.ThrustProperties.MaxPowerConsumption = 0.00065f;
+                    myCharacterDefinition.Jetpack.ThrustProperties.ConsumptionFactorPerG = 135;
+                    myCharacterDefinition.Jetpack.ThrustProperties.EffectivenessAtMinInfluence = 1;
+                    myCharacterDefinition.Jetpack.ThrustProperties.EffectivenessAtMaxInfluence = 0;
 
-                // Nerf the jetpack in gravity
-                myCharacterDefinition.Jetpack.ThrustProperties.ForceMagnitude = 1800;
-                myCharacterDefinition.Jetpack.ThrustProperties.SlowdownFactor = 1;
-                myCharacterDefinition.Jetpack.ThrustProperties.MinPowerConsumption = 0.0000021666666666666666666666666667f;
-                myCharacterDefinition.Jetpack.ThrustProperties.MaxPowerConsumption = 0.00065f;
-                myCharacterDefinition.Jetpack.ThrustProperties.ConsumptionFactorPerG = 135;
-                myCharacterDefinition.Jetpack.ThrustProperties.EffectivenessAtMinInfluence = 1;
-                myCharacterDefinition.Jetpack.ThrustProperties.EffectivenessAtMaxInfluence = 0;
-
-                // Increase oxygen consumption significantly
-                myCharacterDefinition.OxygenConsumptionMultiplier = 8f;
+                    // Increase oxygen consumption significantly
+                    myCharacterDefinition.OxygenConsumptionMultiplier = 8f;
+                }
             }
 
             // Block adjustments
@@ -126,6 +132,7 @@ namespace mkaito.QoL
                 }
 
                 // Ship Welder
+                // Note: Tiered Tech Blocks already buffs the block welder
                 //else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_ShipWelder))
                 //{
                 //    var def = myCubeBlockDefinition as MyShipWelderDefinition;
@@ -166,34 +173,39 @@ namespace mkaito.QoL
                     if (myCubeBlockDefinition.Id.SubtypeId.String.StartsWith("MES-NPC-"))
                         continue;
 
-                    // Rider's Helicarrier Thrusters
+                    // Rider's Heli-carrier Thrusters
                     if (def.Id.SubtypeId.String.Contains("Heli"))
                         continue;
 
                     float mult;
 
                     // Hydrogen is more powerful, but uses more fuel.
-                    // Atmo and Ion are both nerfed, but use less power.
+                    // Atmospheric and Ion are both less effective, but use less power.
                     // Large variants are significantly more powerful and efficient
                     // than small variants.
+                    // FIXME: Can't seem to get the balance right. Maybe it's time for spreadsheets.
+                    /*
                     switch (def.ThrusterType.String)
                     {
                         case "Hydrogen":
                             mult = 1.2f;
-                            def.ForceMagnitude *= largeVariant ? 2 * mult : mult;
-                            def.FuelConverter.Efficiency *= 1f / (mult * (largeVariant ? 2 : 4));
+                            def.ForceMagnitude *= largeVariant ? (float)Math.Pow(mult, 2) : mult;
+                            def.FuelConverter.Efficiency *= 1f / (mult * (largeVariant ? 1.2f : 1.6f));
                             break;
+
                         case "Ion":
                             mult = 0.9f;
-                            def.ForceMagnitude *= largeVariant ? mult : 2 * mult;
-                            def.MaxPowerConsumption *= mult * (largeVariant ? 1.2f : 2);
+                            def.ForceMagnitude *= largeVariant ? mult : 0.8f * mult;
+                            def.MaxPowerConsumption *= mult * (largeVariant ? 1.2f : 1.6f);
                             break;
+
                         case "Atmospheric":
                             mult = 0.8f;
-                            def.ForceMagnitude *= largeVariant ? mult : 2 * mult;
-                            def.MaxPowerConsumption *= mult * (largeVariant ? 1.2f : 2);
+                            def.ForceMagnitude *= largeVariant ? mult : 0.8f * mult;
+                            def.MaxPowerConsumption *= mult * (largeVariant ? 1.2f : 1.6f);
                             break;
                     }
+                */
                 }
 
                 // Spotlights
