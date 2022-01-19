@@ -1,8 +1,6 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Sandbox.Common.ObjectBuilders;
 using Sandbox.Definitions;
-using Sandbox.Game.EntityComponents;
 using VRage.Game;
 using VRage.Game.Components;
 using VRageMath;
@@ -31,14 +29,10 @@ namespace UDSERebalance
             const float smallWheelMult = 8;
             const float largeWheelMult = 20;
 
-            // Hydrogen fuel value
-            MyGasProperties hydrogenDef;
-            if (MyDefinitionManager.Static.TryGetDefinition(MyResourceDistributorComponent.HydrogenId, out hydrogenDef))
-                hydrogenDef.EnergyDensity = 0.004668f;
-
             // Player character adjustments
             // Skip if save name contains "Creative"
-            if (!Session.Name.Contains("Creative"))
+            if (!Session.Name.Contains("Creative") 
+                && !Session.Name.Contains("DEV"))
             {
                 foreach (var myCharacterDefinition in MyDefinitionManager.Static.Characters.Where(def => def.UsableByPlayer))
                 {
@@ -61,7 +55,7 @@ namespace UDSERebalance
                         .Select(myDefinitionBase => myDefinitionBase as MyCubeBlockDefinition)
                         .Where(myCubeBlockDefinition => myCubeBlockDefinition?.Components != null))
             {
-                bool largeVariant = myCubeBlockDefinition.CubeSize == MyCubeSize.Large;
+                bool largeGrid = myCubeBlockDefinition.CubeSize == MyCubeSize.Large;
 
                 // Camera Overlay
                 if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_CameraBlock))
@@ -105,7 +99,7 @@ namespace UDSERebalance
                     if (def == null)
                         continue;
 
-                    var mult = largeVariant ? largeWheelMult : smallWheelMult;
+                    var mult = largeGrid ? largeWheelMult : smallWheelMult;
                     def.AxleFriction *= mult;
                     def.PropulsionForce *= mult;
                     def.RequiredPowerInput *= (mult / 8);
@@ -118,7 +112,7 @@ namespace UDSERebalance
                     if (def == null)
                         continue;
 
-                    def.MaximumRange *= largeVariant ? 5.0f : 10.0f;
+                    def.MaximumRange *= largeGrid ? 8.0f : 5.0f;
                 }
 
                 // Laser Antenna
@@ -149,7 +143,7 @@ namespace UDSERebalance
                     if (def == null)
                         continue;
 
-                    def.SensorRadius *= largeVariant ? 2.0f : 1.25f;
+                    def.SensorRadius *= largeGrid ? 2.0f : 1.25f;
                 }
 
                 // Ship Drill
@@ -159,7 +153,7 @@ namespace UDSERebalance
                     if (def == null)
                         continue;
 
-                    def.CutOutRadius *= largeVariant ? 2.0f : 1.3f;
+                    def.CutOutRadius *= largeGrid ? 2.0f : 1.3f;
                 }
 
                 // Thrusters
@@ -169,43 +163,66 @@ namespace UDSERebalance
                     if (def == null)
                         continue;
 
+                    var subtype = def.Id.SubtypeId.String;
+
                     // MES NPC-only thrusters
-                    if (myCubeBlockDefinition.Id.SubtypeId.String.StartsWith("MES-NPC-"))
+                    if (subtype.StartsWith("MES-NPC-"))
                         continue;
 
                     // Rider's Heli-carrier Thrusters
-                    if (def.Id.SubtypeId.String.Contains("Heli"))
+                    if (subtype.Contains("Heli"))
                         continue;
 
-                    float mult;
-
-                    // Hydrogen is more powerful, but uses more fuel.
-                    // Atmospheric and Ion are both less effective, but use less power.
-                    // Large variants are significantly more powerful and efficient
-                    // than small variants.
-                    // FIXME: Can't seem to get the balance right. Maybe it's time for spreadsheets.
-                    /*
+                    //
+                    // Hard mode. "Expanse mode". Requires redesign of all ships.
+                    //   Theory: H2 thrusters act like "afterburners", or main engines, that provide huge thrust, but consume a lot of fuel.
+                    //   Ion and Atmo act as maneuvering thrusters, providing little thrust, but consuming virtually no energy.
+                    // TODO: Significantly improve force magnitude of large variants
+                    // TODO: Alternatively, use the Aryx-Lynxon Drive mod for the true Expanse feel, and nerf all of these.
+                    //
+                    // float mult;
+                    // switch (def.ThrusterType.String)
+                    // {
+                    //     case "Hydrogen":
+                    //         mult = 1.2f;
+                    //         def.ForceMagnitude *= largeGrid ? (float)Math.Pow(mult, 2) : mult;
+                    //         def.FuelConverter.Efficiency *= 1f / (mult * (largeGrid ? 1.2f : 1.6f));
+                    //         break;
+                    //
+                    //     case "Ion":
+                    //         mult = 0.9f;
+                    //         def.ForceMagnitude *= largeGrid ? mult : 0.8f * mult;
+                    //         def.MaxPowerConsumption *= mult * (largeGrid ? 1.2f : 1.6f);
+                    //         break;
+                    //
+                    //     case "Atmospheric":
+                    //         mult = 0.8f;
+                    //         def.ForceMagnitude *= largeGrid ? mult : 0.8f * mult;
+                    //         def.MaxPowerConsumption *= mult * (largeGrid ? 1.2f : 1.6f);
+                    //         break;
+                    // }
+                    
+                    //
+                    // Easy mode. Favour large grid.
+                    //
                     switch (def.ThrusterType.String)
                     {
                         case "Hydrogen":
-                            mult = 1.2f;
-                            def.ForceMagnitude *= largeVariant ? (float)Math.Pow(mult, 2) : mult;
-                            def.FuelConverter.Efficiency *= 1f / (mult * (largeVariant ? 1.2f : 1.6f));
+                            // Increase H2 thruster fuel efficiency
+                            def.FuelConverter.Efficiency = 1;
+                            def.MaxPowerConsumption /= largeGrid ? 3f : 2f;
                             break;
 
                         case "Ion":
-                            mult = 0.9f;
-                            def.ForceMagnitude *= largeVariant ? mult : 0.8f * mult;
-                            def.MaxPowerConsumption *= mult * (largeVariant ? 1.2f : 1.6f);
+                            // Increase Ion thruster force magnitude
+                            def.ForceMagnitude *= largeGrid ? 1.6f : 1.4f;
                             break;
 
                         case "Atmospheric":
-                            mult = 0.8f;
-                            def.ForceMagnitude *= largeVariant ? mult : 0.8f * mult;
-                            def.MaxPowerConsumption *= mult * (largeVariant ? 1.2f : 1.6f);
+                            // Increase Atmospheric thruster force magnitude
+                            def.ForceMagnitude *= largeGrid ? 1.4f : 1.2f;
                             break;
                     }
-                */
                 }
 
                 // Spotlights
@@ -226,6 +243,43 @@ namespace UDSERebalance
                         continue;
 
                     def.LightRadius = new MyBounds(1, 40, 3.6f);
+                }
+
+                // Double all power generation. Shields and lazors be cray cray.
+                else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_WindTurbine))
+                {
+                    var def = myCubeBlockDefinition as MyWindTurbineDefinition;
+                    if (def == null)
+                        continue;
+
+                    def.MaxPowerOutput *= 2;
+                }
+                else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_SolarPanel))
+                {
+                    var def = myCubeBlockDefinition as MySolarPanelDefinition;
+                    if (def == null)
+                        continue;
+
+                    def.MaxPowerOutput *= 2;
+                }
+                
+                else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_Reactor))
+                {
+                    var def = myCubeBlockDefinition as MyReactorDefinition;
+                    if (def == null)
+                        continue;
+
+                    def.MaxPowerOutput *= 2;
+                }
+                
+                else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_HydrogenEngine))
+                {
+                    var def = myCubeBlockDefinition as MyHydrogenEngineDefinition;
+                    if (def == null)
+                        continue;
+
+                    def.MaxPowerOutput *= 3;
+                    def.FuelCapacity *= 3;
                 }
             }
         }

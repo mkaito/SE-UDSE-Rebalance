@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\SpaceEngineers\\Content\\Data",
+			"name": "Game Data"
+		},
+		{
+			"path": "C:\\Program Files (x86)\\Steam\\steamapps\\workshop\\content\\244850\\1682499145",
+			"name": "Tiered Tech Blocks"
+		}
+	],
+	"settings": {}
+}
