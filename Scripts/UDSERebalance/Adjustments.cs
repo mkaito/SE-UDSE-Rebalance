@@ -203,9 +203,7 @@ namespace UDSERebalance
                         continue;
 
                     //
-                    // Slightly easier thruster balance:
-                    //   * H2 use a third of the fuel
-                    //   * Ion and Atmospheric are a bit more powerful
+                    //   H2 thrusters use a third of the fuel
                     //
                     switch (def.ThrusterType.String)
                     {
@@ -215,22 +213,22 @@ namespace UDSERebalance
                                 (d, v) => def.FuelConverter.Efficiency = v, 1));
                             OriginalValues.Add(Remember.Create(def, (d) => def.MaxPowerConsumption,
                                 (d, v) => def.MaxPowerConsumption = v,
-                                (def.MaxPowerConsumption / (largeGrid ? 3 : 2))));
+                                (def.MaxPowerConsumption / 3)));
                             break;
 
-                        case "Ion":
-                            // Increase Ion thruster force magnitude
-                            OriginalValues.Add(Remember.Create(def, (d) => def.ForceMagnitude,
-                                (d, v) => def.ForceMagnitude = v,
-                                (def.ForceMagnitude * (largeGrid ? 1.6f : 1.4f))));
-                            break;
-
-                        case "Atmospheric":
-                            // Increase Atmospheric thruster force magnitude
-                            OriginalValues.Add(Remember.Create(def, (d) => def.ForceMagnitude,
-                                (d, v) => def.ForceMagnitude = v,
-                                (def.ForceMagnitude * (largeGrid ? 1.4f : 1.2f))));
-                            break;
+                        // case "Ion":
+                        //     // Increase Ion thruster force magnitude
+                        //     OriginalValues.Add(Remember.Create(def, (d) => def.ForceMagnitude,
+                        //         (d, v) => def.ForceMagnitude = v,
+                        //         (def.ForceMagnitude * (largeGrid ? 1.6f : 1.4f))));
+                        //     break;
+                        //
+                        // case "Atmospheric":
+                        //     // Increase Atmospheric thruster force magnitude
+                        //     OriginalValues.Add(Remember.Create(def, (d) => def.ForceMagnitude,
+                        //         (d, v) => def.ForceMagnitude = v,
+                        //         (def.ForceMagnitude * (largeGrid ? 1.4f : 1.2f))));
+                        //     break;
                     }
                 }
 
