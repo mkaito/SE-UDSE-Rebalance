@@ -26,13 +26,17 @@ namespace UDSERebalance
                 return;
             _initDone = true;
 
-            foreach (MyDefinitionBase def in MyDefinitionManager.Static.GetAllDefinitions())
+            foreach (var def in MyDefinitionManager.Static.GetAllDefinitions())
             {
-                MyCubeBlockDefinition blockDef = def as MyCubeBlockDefinition;
+                var blockDef = def as MyCubeBlockDefinition;
 
                 if (blockDef == null) continue;
 
-                if (blockDef.BlockTopology == MyBlockTopology.TriangleMesh && !(blockDef.Id.SubtypeName.StartsWith("AQD_LG_LA_") || blockDef.Id.SubtypeName.StartsWith("AQD_SG_LA_") || blockDef.Id.SubtypeName.StartsWith("AQD_LG_HA_") || blockDef.Id.SubtypeName.StartsWith("AQD_SG_HA_"))) continue;
+                if (blockDef.BlockTopology == MyBlockTopology.TriangleMesh &&
+                    !(blockDef.Id.SubtypeName.StartsWith("AQD_LG_LA_") ||
+                      blockDef.Id.SubtypeName.StartsWith("AQD_SG_LA_") ||
+                      blockDef.Id.SubtypeName.StartsWith("AQD_LG_HA_") ||
+                      blockDef.Id.SubtypeName.StartsWith("AQD_SG_HA_"))) continue;
 
                 if (blockDef.EdgeType == "Light")
                 {
@@ -65,15 +69,14 @@ namespace UDSERebalance
                 }
             }
         }
-        
+
         public override void Init(MyObjectBuilder_SessionComponent sessionComponent)
         {
-
         }
 
         public override void LoadData()
         {
-            DoWork();  
+            DoWork();
         }
     }
 }
