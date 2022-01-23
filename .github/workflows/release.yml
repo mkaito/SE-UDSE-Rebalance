@@ -1,0 +1,25 @@
+on:
+  push:
+    tags:
+    - 'v*.*.*'
+
+jobs:
+  build_addon:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set VERSION env
+      run: echo VERSION=${GITHUB_REF:11} >> $GITHUB_ENV
+    - name: Build addon with HEMTT
+      run: './build.sh'
+
+    # Upload to Steam Workshop
+    - uses: arma-actions/workshop-upload@v1
+      with:
+        appId: '244850'
+        itemId: '2552601155'
+        contentPath: 'Upload'
+        changelog: 'N/A'
+      env:
+        STEAM_USERNAME: ${{ secrets.STEAM_USERNAME }}
+        STEAM_PASSWORD: ${{ secrets.STEAM_PASSWORD }}
