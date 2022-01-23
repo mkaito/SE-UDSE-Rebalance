@@ -1,0 +1,26 @@
+on:
+  workflow_dispatch:
+  push:
+    tags:
+    - 'v*.*.*'
+
+jobs:
+  build_addon:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set VERSION env
+      run: echo VERSION=${GITHUB_REF:11} >> $GITHUB_ENV
+    - name: Build mod folder
+      run: '/bin/bash build.sh'
+
+    - name: steam-workshop-upload
+      uses: weilbyte/steam-workshop-upload@v1
+      with: 
+        appid: 244850
+        itemid: 2552601155
+        path: 'Upload'
+      env:
+        STEAM_USERNAME: ${{ secrets.STEAM_USERNAME }}
+        STEAM_PASSWORD: ${{ secrets.STEAM_PASSWORD }}
+        STEAM_TFASEED: ${{ secrets.STEAM_TFASEED }}

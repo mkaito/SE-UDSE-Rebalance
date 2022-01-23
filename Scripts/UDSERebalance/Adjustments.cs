@@ -6,9 +6,7 @@ using VRage.Game;
 using VRage.Game.Components;
 using VRageMath;
 
-// ReSharper disable IdentifierTypo
 namespace UDSERebalance
-// ReSharper restore IdentifierTypo
 {
     [MySessionComponentDescriptor(MyUpdateOrder.NoUpdate)]
     public class QoLAdjustments : MySessionComponentBase
@@ -27,7 +25,6 @@ namespace UDSERebalance
             const float largeWheelMult = 20;
 
             // Player character adjustments
-            // Skip if save name contains "Creative"
             if (!Session.Name.Contains("Creative")
                 && !Session.Name.Contains("DEV"))
                 foreach (var myCharacterDefinition in MyDefinitionManager.Static.Characters.Where(def =>
