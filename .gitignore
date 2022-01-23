@@ -1,5 +1,5 @@
-/Scripts/UDSERebalance/bin/
-/Scripts/UDSERebalance/obj/
-/Scripts/UDSERebalance/.vs/
-/.vs/
+bin/
+obj/
+.vs/
 /Upload/
+/mod.vdf
