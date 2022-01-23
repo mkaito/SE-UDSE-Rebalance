@@ -1,13 +1,17 @@
-﻿using Sandbox.Definitions;
+﻿using System.Collections.Generic;
+using Sandbox.Definitions;
 using VRage.Game;
 using VRage.Game.Components;
 
-// Code is based on Gauge's Balanced Deformation code, but heavily modified for more control. 
+// This Code based on Enenra's AQD Quality of Life Core code, which in turn is
+// based on Gauge's Balanced Deformation code.
 namespace UDSERebalance
 {
     [MySessionComponentDescriptor(MyUpdateOrder.NoUpdate)]
     public class ArmorBalance : MySessionComponentBase
     {
+        private readonly List<IRemember> OriginalValues = new List<IRemember>();
+
         private const float LightArmorLargeDamageMod = 0.5f;
         private const float LightArmorLargeDeformationMod = 0.2f;
         private const float LightArmorSmallDamageMod = 0.5f;
@@ -18,14 +22,8 @@ namespace UDSERebalance
         private const float HeavyArmorSmallDamageMod = 0.5f;
         private const float HeavyArmorSmallDeformationMod = 0.15f;
 
-        private bool _initDone;
-
         private void DoWork()
         {
-            if (_initDone)
-                return;
-            _initDone = true;
-
             foreach (var def in MyDefinitionManager.Static.GetAllDefinitions())
             {
                 var blockDef = def as MyCubeBlockDefinition;
@@ -38,45 +36,71 @@ namespace UDSERebalance
                       blockDef.Id.SubtypeName.StartsWith("AQD_LG_HA_") ||
                       blockDef.Id.SubtypeName.StartsWith("AQD_SG_HA_"))) continue;
 
-                if (blockDef.EdgeType == "Light")
+                switch (blockDef.EdgeType)
                 {
-                    if (blockDef.CubeSize == MyCubeSize.Large)
+                    case "Light":
                     {
-                        blockDef.GeneralDamageMultiplier = LightArmorLargeDamageMod;
-                        blockDef.DeformationRatio = LightArmorLargeDeformationMod;
-                    }
+                        switch (blockDef.CubeSize)
+                        {
+                            case MyCubeSize.Large:
+                                OriginalValues.Add(Remember.Create(blockDef, (d) => blockDef.GeneralDamageMultiplier,
+                                    (d, v) => blockDef.GeneralDamageMultiplier = v,
+                                    LightArmorLargeDamageMod));
+                                OriginalValues.Add(Remember.Create(blockDef, (d) => blockDef.DeformationRatio,
+                                    (d, v) => blockDef.DeformationRatio = v,
+                                    LightArmorLargeDeformationMod));
+                                break;
+                            case MyCubeSize.Small:
+                                OriginalValues.Add(Remember.Create(blockDef, (d) => blockDef.GeneralDamageMultiplier,
+                                    (d, v) => blockDef.GeneralDamageMultiplier = v,
+                                    LightArmorSmallDamageMod));
+                                OriginalValues.Add(Remember.Create(blockDef, (d) => blockDef.DeformationRatio,
+                                    (d, v) => blockDef.DeformationRatio = v,
+                                    LightArmorSmallDeformationMod));
+                                break;
+                        }
 
-                    if (blockDef.CubeSize == MyCubeSize.Small)
-                    {
-                        blockDef.GeneralDamageMultiplier = LightArmorSmallDamageMod;
-                        blockDef.DeformationRatio = LightArmorSmallDeformationMod;
+                        break;
                     }
-                }
-
-                if (blockDef.EdgeType == "Heavy")
-                {
-                    if (blockDef.CubeSize == MyCubeSize.Large)
+                    case "Heavy":
                     {
-                        blockDef.GeneralDamageMultiplier = HeavyArmorLargeDamageMod;
-                        blockDef.DeformationRatio = HeavyArmorLargeDeformationMod;
-                    }
+                        switch (blockDef.CubeSize)
+                        {
+                            case MyCubeSize.Large:
+                                OriginalValues.Add(Remember.Create(blockDef, (d) => blockDef.GeneralDamageMultiplier,
+                                    (d, v) => blockDef.GeneralDamageMultiplier = v,
+                                    HeavyArmorLargeDamageMod));
+                                OriginalValues.Add(Remember.Create(blockDef, (d) => blockDef.DeformationRatio,
+                                    (d, v) => blockDef.DeformationRatio = v,
+                                    HeavyArmorLargeDeformationMod));
+                                break;
+                            case MyCubeSize.Small:
+                                OriginalValues.Add(Remember.Create(blockDef, (d) => blockDef.GeneralDamageMultiplier,
+                                    (d, v) => blockDef.GeneralDamageMultiplier = v,
+                                    HeavyArmorSmallDamageMod));
+                                OriginalValues.Add(Remember.Create(blockDef, (d) => blockDef.DeformationRatio,
+                                    (d, v) => blockDef.DeformationRatio = v,
+                                    HeavyArmorSmallDeformationMod));
+                                break;
+                        }
 
-                    if (blockDef.CubeSize == MyCubeSize.Small)
-                    {
-                        blockDef.GeneralDamageMultiplier = HeavyArmorSmallDamageMod;
-                        blockDef.DeformationRatio = HeavyArmorSmallDeformationMod;
+                        break;
                     }
                 }
             }
         }
 
-        public override void Init(MyObjectBuilder_SessionComponent sessionComponent)
-        {
-        }
-
         public override void LoadData()
         {
             DoWork();
+        }
+        
+        protected override void UnloadData()
+        {
+            foreach (var r in OriginalValues)
+            {
+                r.Restore();
+            }
         }
     }
 }
