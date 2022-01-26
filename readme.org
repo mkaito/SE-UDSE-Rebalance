@@ -1,29 +1,31 @@
-# UDSE Rebalance
+* UDSE Rebalance
 
-This is a _very_ opinionated rebalance mod for Space Engineers. It makes some
+This is a /very/ opinionated rebalance mod for Space Engineers. It makes some
 things harder, some things more convenient, and some things easier.
 
 I'll try to keep the list below up to date, but I'd recommend referring to the
 git log for details.
 
-The list below includes all numeric details, but here are some notes on _why_ I
+This project is available on [[https://github.com/mkaito/SE-UDSE-Rebalance][GitHub]].
+
+The list below includes all numeric details, but here are some notes on /why/ I
 even made some of these modifications. These are, of course, only my opinions.
 
-* Power production balance in vanilla leans heavily towards nuclear power. To
+- Power production balance in vanilla leans heavily towards nuclear power. To
   adjust this somewhat, I've doubled renewable energy, tripled H2 power, and
   halved reactor output. Reactors still have the benefit of energy density and
   duration per unit of fuel, but turbines and solar are hopefully not so weak as
   to be completely obsolete the moment you find some Uranium.
-* Wheels, especially large grid, are woefully underpowered. Have you ever tried
+- Wheels, especially large grid, are woefully underpowered. Have you ever tried
   to build a moderately sized large grid rover, only to have to put as many (or
   more) thrusters on it as if you were building a ship?
-* Since I pretty much always play with a deep ores mod, increase ore detector range.
-* Ship grinder radius increased so that grinder pits don't end up with blocks stuck between grinders.
-* Ship drill radius increased so that large grid drill ships can have at least one block between drills.
-* Hydrogen thrusters consume way too much fuel for my taste.
-* Spotlights and lights in general need way more range.
+- Since I pretty much always play with a deep ores mod, increase ore detector range.
+- Ship grinder radius increased so that grinder pits don't end up with blocks stuck between grinders.
+- Ship drill radius increased so that large grid drill ships can have at least one block between drills.
+- Hydrogen thrusters consume way too much fuel for my taste.
+- Spotlights and lights in general need way more range.
 
-## Character
+** Character
 
 A mild jetpack nerf is included. Its power has been fine tuned so you can get
 yourself out of a hole in 1.2G, if you angle yourself correctly and use both
@@ -35,10 +37,12 @@ foot.
 Neither of these will apply if the world name contains the words "Creative" or
 "DEV".
 
-## Blocks
+** Blocks
 
 - Courtesy of Enenra of AQD and SEUT fame, a simple and visually pleasing overlay for cameras and turrets.
-- Also courtesy of Enenra, a script that severely reduces damage taken and deformation of all armor blocks.
+- Also courtesy of Enenra, a script that severely reduces damage taken and
+  deformation of all armor blocks, especially small grid.
+- Cockpits and thrusters take 80% less damage.
 - Wind Turbines produce 2x the output.
 - Solar panels produce 2x the output.
 - Reactors produce half the output.

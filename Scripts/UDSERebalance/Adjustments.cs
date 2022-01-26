@@ -253,7 +253,7 @@ namespace UDSERebalance
                         largeGrid ? new MyBounds(1, 200, 20) : new MyBounds(1, 100, 20)));
                 }
 
-                // Double all power generation. Shields and lazors be cray cray.
+                // Double all power generation. Shields and lazors be cray cray. Except nuclear. Nuclear be OP.
                 else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_WindTurbine))
                 {
                     var def = myCubeBlockDefinition as MyWindTurbineDefinition;
@@ -264,6 +264,7 @@ namespace UDSERebalance
                         (d, v) => d.MaxPowerOutput = v,
                         (def.MaxPowerOutput * 2)));
                 }
+
                 else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_SolarPanel))
                 {
                     var def = myCubeBlockDefinition as MySolarPanelDefinition;
@@ -283,7 +284,7 @@ namespace UDSERebalance
 
                     OriginalValues.Add(Remember.Create(def, (d) => d.MaxPowerOutput,
                         (d, v) => d.MaxPowerOutput = v,
-                        (def.MaxPowerOutput * 2)));
+                        (def.MaxPowerOutput / 2)));
                 }
 
                 else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_HydrogenEngine))
