@@ -131,7 +131,7 @@ namespace UDSERebalance
                     // Large 150m
                     OriginalValues.Add(Remember.Create(def, (d) => d.MaximumRange,
                         (d, v) => d.MaximumRange = v,
-                        (def.MaximumRange * 3)));
+                        (def.MaximumRange * 5)));
                 }
 
                 // Laser Antenna
