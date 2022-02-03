@@ -110,15 +110,17 @@ namespace UDSERebalance
 
         public override void LoadData()
         {
-            DoWork();
+            //DoWork();
+            base.LoadData();
         }
 
         protected override void UnloadData()
         {
-            foreach (var r in OriginalValues)
-            {
-                r.Restore();
-            }
+            // foreach (var r in OriginalValues)
+            // {
+            //     r.Restore();
+            // }
+            base.UnloadData();
         }
     }
 }
