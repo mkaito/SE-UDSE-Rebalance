@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace UDSERebalance
+namespace UDSERebalance.Utilities.Utilities
 {
     public interface IRemember
     {

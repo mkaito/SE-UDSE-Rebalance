@@ -5,7 +5,7 @@ using VRage.Game.Components;
 
 // This Code based on Enenra's AQD Quality of Life Core code, which in turn is
 // based on Gauge's Balanced Deformation code.
-namespace UDSERebalance
+namespace UDSERebalance.Utilities.Utilities
 {
     [MySessionComponentDescriptor(MyUpdateOrder.NoUpdate)]
     public class DamageMultiplierAdjustments : MySessionComponentBase
@@ -22,17 +22,17 @@ namespace UDSERebalance
 
                 var myCockpitDef = def as MyCockpitDefinition;
                 if (myCockpitDef != null)
-                    OriginalValues.Add(Remember.Create(myCockpitDef, (d) => d.GeneralDamageMultiplier,
+                    OriginalValues.Add(Remember.Create(myCockpitDef, d => d.GeneralDamageMultiplier,
                         (d, v) => d.GeneralDamageMultiplier = v, 0.2f));
 
                 var myThrusterDef = def as MyThrustDefinition;
                 if (myThrusterDef != null)
-                    OriginalValues.Add(Remember.Create(myThrusterDef, (d) => d.GeneralDamageMultiplier,
+                    OriginalValues.Add(Remember.Create(myThrusterDef, d => d.GeneralDamageMultiplier,
                         (d, v) => d.GeneralDamageMultiplier = v, 0.2f));
 
                 var myWheelDef = def as MyMotorSuspensionDefinition;
                 if (myWheelDef != null)
-                    OriginalValues.Add(Remember.Create(myWheelDef, (d) => d.GeneralDamageMultiplier,
+                    OriginalValues.Add(Remember.Create(myWheelDef, d => d.GeneralDamageMultiplier,
                         (d, v) => d.GeneralDamageMultiplier = v, 0.2f));
             }
         }
@@ -62,18 +62,18 @@ namespace UDSERebalance
                     switch (blockDef.CubeSize)
                     {
                         case MyCubeSize.Large:
-                            OriginalValues.Add(Remember.Create(blockDef, (d) => d.GeneralDamageMultiplier,
+                            OriginalValues.Add(Remember.Create(blockDef, d => d.GeneralDamageMultiplier,
                                 (d, v) => d.GeneralDamageMultiplier = v,
                                 LightArmorLargeDamageMod));
-                            OriginalValues.Add(Remember.Create(blockDef, (d) => d.DeformationRatio,
+                            OriginalValues.Add(Remember.Create(blockDef, d => d.DeformationRatio,
                                 (d, v) => d.DeformationRatio = v,
                                 LightArmorLargeDeformationMod));
                             break;
                         case MyCubeSize.Small:
-                            OriginalValues.Add(Remember.Create(blockDef, (d) => d.GeneralDamageMultiplier,
+                            OriginalValues.Add(Remember.Create(blockDef, d => d.GeneralDamageMultiplier,
                                 (d, v) => d.GeneralDamageMultiplier = v,
                                 LightArmorSmallDamageMod));
-                            OriginalValues.Add(Remember.Create(blockDef, (d) => d.DeformationRatio,
+                            OriginalValues.Add(Remember.Create(blockDef, d => d.DeformationRatio,
                                 (d, v) => d.DeformationRatio = v,
                                 LightArmorSmallDeformationMod));
                             break;
@@ -86,18 +86,18 @@ namespace UDSERebalance
                     switch (blockDef.CubeSize)
                     {
                         case MyCubeSize.Large:
-                            OriginalValues.Add(Remember.Create(blockDef, (d) => d.GeneralDamageMultiplier,
+                            OriginalValues.Add(Remember.Create(blockDef, d => d.GeneralDamageMultiplier,
                                 (d, v) => d.GeneralDamageMultiplier = v,
                                 HeavyArmorLargeDamageMod));
-                            OriginalValues.Add(Remember.Create(blockDef, (d) => d.DeformationRatio,
+                            OriginalValues.Add(Remember.Create(blockDef, d => d.DeformationRatio,
                                 (d, v) => d.DeformationRatio = v,
                                 HeavyArmorLargeDeformationMod));
                             break;
                         case MyCubeSize.Small:
-                            OriginalValues.Add(Remember.Create(blockDef, (d) => d.GeneralDamageMultiplier,
+                            OriginalValues.Add(Remember.Create(blockDef, d => d.GeneralDamageMultiplier,
                                 (d, v) => d.GeneralDamageMultiplier = v,
                                 HeavyArmorSmallDamageMod));
-                            OriginalValues.Add(Remember.Create(blockDef, (d) => d.DeformationRatio,
+                            OriginalValues.Add(Remember.Create(blockDef, d => d.DeformationRatio,
                                 (d, v) => d.DeformationRatio = v,
                                 HeavyArmorSmallDeformationMod));
                             break;

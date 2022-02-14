@@ -2,16 +2,18 @@
 using System.Linq;
 using Sandbox.Common.ObjectBuilders;
 using Sandbox.Definitions;
+using UDSERebalance.ConfigData;
 using VRage.Game;
 using VRage.Game.Components;
 using VRageMath;
 
-namespace UDSERebalance
+namespace UDSERebalance.Utilities.Utilities
 {
     [MySessionComponentDescriptor(MyUpdateOrder.NoUpdate)]
     public class QoLAdjustments : MySessionComponentBase
     {
         private readonly List<IRemember> OriginalValues = new List<IRemember>();
+        private SaveData ModSaveData;
 
         private void DoWork()
         {
@@ -25,34 +27,36 @@ namespace UDSERebalance
             const float largeWheelMult = 20;
 
             // Player character adjustments
-            if (!Session.Name.Contains("Creative")
-                && !Session.Name.Contains("DEV"))
-                foreach (var myCharacterDefinition in MyDefinitionManager.Static.Characters.Where(def =>
-                             def.UsableByPlayer))
+            foreach (var myCharacterDefinition in MyDefinitionManager.Static.Characters.Where(def =>
+                         def.UsableByPlayer))
+            {
+                if (ModSaveData.NerfJetpack)
                 {
                     var jp = myCharacterDefinition.Jetpack.ThrustProperties;
 
                     // Nerf the jetpack in gravity
-                    OriginalValues.Add(Remember.Create(jp, (d) => d.ForceMagnitude, (d, v) => d.ForceMagnitude = v,
+                    OriginalValues.Add(Remember.Create(jp, d => d.ForceMagnitude, (d, v) => d.ForceMagnitude = v,
                         1800));
                     OriginalValues.Add(
-                        Remember.Create(jp, (d) => jp.SlowdownFactor, (d, v) => d.SlowdownFactor = v, 1));
-                    OriginalValues.Add(Remember.Create(jp, (d) => d.MinPowerConsumption,
+                        Remember.Create(jp, d => jp.SlowdownFactor, (d, v) => d.SlowdownFactor = v, 1));
+                    OriginalValues.Add(Remember.Create(jp, d => d.MinPowerConsumption,
                         (d, v) => d.MinPowerConsumption = v, 0.0000021666666666666666666666666667f));
-                    OriginalValues.Add(Remember.Create(jp, (d) => d.MaxPowerConsumption,
+                    OriginalValues.Add(Remember.Create(jp, d => d.MaxPowerConsumption,
                         (d, v) => d.MaxPowerConsumption = v, 0.00065f));
-                    OriginalValues.Add(Remember.Create(jp, (d) => d.ConsumptionFactorPerG,
+                    OriginalValues.Add(Remember.Create(jp, d => d.ConsumptionFactorPerG,
                         (d, v) => d.ConsumptionFactorPerG = v, 135));
-                    OriginalValues.Add(Remember.Create(jp, (d) => d.EffectivenessAtMinInfluence,
+                    OriginalValues.Add(Remember.Create(jp, d => d.EffectivenessAtMinInfluence,
                         (d, v) => d.EffectivenessAtMinInfluence = v, 1));
-                    OriginalValues.Add(Remember.Create(jp, (d) => d.EffectivenessAtMaxInfluence,
+                    OriginalValues.Add(Remember.Create(jp, d => d.EffectivenessAtMaxInfluence,
                         (d, v) => d.EffectivenessAtMaxInfluence = v, 0));
+                }
 
+                if (ModSaveData.BoostOxygenConsumption)
                     // Increase oxygen consumption significantly
                     OriginalValues.Add(Remember.Create(myCharacterDefinition,
-                        (d) => d.OxygenConsumptionMultiplier,
+                        d => d.OxygenConsumptionMultiplier,
                         (d, v) => d.OxygenConsumptionMultiplier = v, 8));
-                }
+            }
 
             // Block adjustments
             foreach (var myCubeBlockDefinition in MyDefinitionManager.Static.GetAllDefinitions()
@@ -72,7 +76,7 @@ namespace UDSERebalance
                     if (def == null)
                         continue;
 
-                    OriginalValues.Add(Remember.Create(def, (d) => d.OverlayTexture, (d, v) => d.OverlayTexture = v,
+                    OriginalValues.Add(Remember.Create(def, d => d.OverlayTexture, (d, v) => d.OverlayTexture = v,
                         camTextureFullPath));
                 }
 
@@ -85,7 +89,7 @@ namespace UDSERebalance
                     if (def == null)
                         continue;
 
-                    OriginalValues.Add(Remember.Create(def, (d) => d.OverlayTexture, (d, v) => d.OverlayTexture = v,
+                    OriginalValues.Add(Remember.Create(def, d => d.OverlayTexture, (d, v) => d.OverlayTexture = v,
                         turretTextureFullPath));
                 }
 
@@ -96,7 +100,7 @@ namespace UDSERebalance
                     if (def == null)
                         continue;
 
-                    OriginalValues.Add(Remember.Create(def, (d) => d.MaxGasOutput, (d, v) => d.MaxGasOutput = v,
+                    OriginalValues.Add(Remember.Create(def, d => d.MaxGasOutput, (d, v) => d.MaxGasOutput = v,
                         def.MaxGasOutput * 10));
                 }
 
@@ -109,12 +113,12 @@ namespace UDSERebalance
 
                     var mult = largeGrid ? largeWheelMult : smallWheelMult;
 
-                    OriginalValues.Add(Remember.Create(def, (d) => d.AxleFriction, (d, v) => d.AxleFriction = v,
+                    OriginalValues.Add(Remember.Create(def, d => d.AxleFriction, (d, v) => d.AxleFriction = v,
                         def.AxleFriction * mult));
-                    OriginalValues.Add(Remember.Create(def, (d) => d.PropulsionForce,
+                    OriginalValues.Add(Remember.Create(def, d => d.PropulsionForce,
                         (d, v) => d.PropulsionForce = v,
                         def.PropulsionForce * mult));
-                    OriginalValues.Add(Remember.Create(def, (d) => d.RequiredPowerInput,
+                    OriginalValues.Add(Remember.Create(def, d => d.RequiredPowerInput,
                         (d, v) => d.RequiredPowerInput = v,
                         def.RequiredPowerInput * (mult / 8)));
                 }
@@ -129,9 +133,9 @@ namespace UDSERebalance
                     // Vanilla:
                     // Small 50m
                     // Large 150m
-                    OriginalValues.Add(Remember.Create(def, (d) => d.MaximumRange,
+                    OriginalValues.Add(Remember.Create(def, d => d.MaximumRange,
                         (d, v) => d.MaximumRange = v,
-                        (def.MaximumRange * 9)));
+                        def.MaximumRange * 9));
                 }
 
                 // Laser Antenna
@@ -141,9 +145,9 @@ namespace UDSERebalance
                     if (def == null)
                         continue;
 
-                    OriginalValues.Add(Remember.Create(def, (d) => d.PowerInputLasing,
+                    OriginalValues.Add(Remember.Create(def, d => d.PowerInputLasing,
                         (d, v) => d.PowerInputLasing = v,
-                        (def.PowerInputLasing / (largeGrid ? 10 : 20))));
+                        def.PowerInputLasing / (largeGrid ? 10 : 20)));
                 }
 
                 // Ship Welder
@@ -164,9 +168,9 @@ namespace UDSERebalance
                     if (def == null)
                         continue;
 
-                    OriginalValues.Add(Remember.Create(def, (d) => d.SensorRadius,
+                    OriginalValues.Add(Remember.Create(def, d => d.SensorRadius,
                         (d, v) => d.SensorRadius = v,
-                        (def.SensorRadius * (largeGrid ? 2 : 1.25f))));
+                        def.SensorRadius * (largeGrid ? 2 : 1.25f)));
                 }
 
                 // Ship Drill
@@ -176,9 +180,9 @@ namespace UDSERebalance
                     if (def == null)
                         continue;
 
-                    OriginalValues.Add(Remember.Create(def, (d) => d.CutOutRadius,
+                    OriginalValues.Add(Remember.Create(def, d => d.CutOutRadius,
                         (d, v) => d.CutOutRadius = v,
-                        (def.CutOutRadius * (largeGrid ? 2 : 1.3f))));
+                        def.CutOutRadius * (largeGrid ? 2 : 1.3f)));
                 }
 
                 // Thrusters
@@ -235,7 +239,7 @@ namespace UDSERebalance
                     if (def == null)
                         continue;
 
-                    OriginalValues.Add(Remember.Create(def, (d) => d.LightReflectorRadius,
+                    OriginalValues.Add(Remember.Create(def, d => d.LightReflectorRadius,
                         (d, v) => d.LightReflectorRadius = v,
                         new MyBounds(10, 780, 320)));
                 }
@@ -248,7 +252,7 @@ namespace UDSERebalance
                         continue;
 
                     def.LightRadius = new MyBounds(1, 40, 3.6f);
-                    OriginalValues.Add(Remember.Create(def, (d) => d.LightRadius,
+                    OriginalValues.Add(Remember.Create(def, d => d.LightRadius,
                         (d, v) => d.LightRadius = v,
                         largeGrid ? new MyBounds(1, 200, 20) : new MyBounds(1, 100, 20)));
                 }
@@ -305,14 +309,26 @@ namespace UDSERebalance
 
         public override void LoadData()
         {
+            ModSaveData = Config.ReadFileFromWorldStorage<SaveData>("rebalance.xml", typeof(SaveData));
+            if (ModSaveData == null)
+            {
+                ModSaveData = new SaveData
+                {
+                    BoostOxygenConsumption = true,
+                    NerfJetpack = true
+                };
+
+                Config.WriteFileToWorldStorage("rebalance.xml", typeof(SaveData), ModSaveData);
+            }
+
             DoWork();
         }
+
         protected override void UnloadData()
         {
-            foreach (var r in OriginalValues)
-            {
-                r.Restore();
-            }
+            foreach (var r in OriginalValues) r.Restore();
+
+            Config.WriteFileToWorldStorage("rebalance.xml", typeof(SaveData), ModSaveData);
         }
     }
 }
