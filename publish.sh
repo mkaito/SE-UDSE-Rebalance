@@ -10,11 +10,20 @@ if [[ $description_size -gt 7999 ]]; then
   exit 1
 fi
 
+MODID_FULL=2552601155
+MODID_LITE=2758563789
+
+if [[ ${1:-full} = "full" ]]; then
+    MODID="$MODID_FULL"
+else
+    MODID="$MODID_LITE"
+fi
+
 cat << EOF >| mod.vdf
 "workshopitem"
 {
   "appid"             "244850"
-  "publishedfileid"   "2552601155"
+  "publishedfileid"   "$MODID"
   "contentfolder"     "$PWD/Upload"
   "description"       "$(cat $PWD/description.bb)"
 }
