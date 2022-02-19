@@ -151,14 +151,13 @@ namespace UDSERebalance.Utilities.Utilities
                 }
 
                 // Ship Welder
-                // Note: Tiered Tech Blocks already buffs the block welder
                 else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_ShipWelder))
                 {
                     var def = myCubeBlockDefinition as MyShipWelderDefinition;
                     if (def == null)
                         continue;
 
-                    def.SensorRadius *= largeGrid ? 2.0f : 1.1f;
+                    def.SensorRadius *= largeGrid ? 6f : 3f;
                 }
 
                 // Ship Grinder
@@ -207,28 +206,28 @@ namespace UDSERebalance.Utilities.Utilities
                     //
                     switch (def.ThrusterType.String)
                     {
-                        // case "Hydrogen":
-                        //     // Increase H2 thruster fuel efficiency
-                        //     OriginalValues.Add(Remember.Create(def.FuelConverter, (d) => d.Efficiency,
-                        //         (d, v) => d.Efficiency = v, 1));
-                        //     OriginalValues.Add(Remember.Create(def, (d) => d.MaxPowerConsumption,
-                        //         (d, v) => d.MaxPowerConsumption = v,
-                        //         (def.MaxPowerConsumption / 3)));
-                        //     break;
+                        case "Hydrogen":
+                            // Increase H2 thruster fuel efficiency
+                            OriginalValues.Add(Remember.Create(def.FuelConverter, (d) => d.Efficiency,
+                                (d, v) => d.Efficiency = v, 1));
+                            OriginalValues.Add(Remember.Create(def, (d) => d.MaxPowerConsumption,
+                                (d, v) => d.MaxPowerConsumption = v,
+                                (def.MaxPowerConsumption / 3)));
+                            break;
 
-                        // case "Ion":
-                        //     // Increase Ion thruster force magnitude
-                        //     OriginalValues.Add(Remember.Create(def, (d) => def.ForceMagnitude,
-                        //         (d, v) => def.ForceMagnitude = v,
-                        //         (def.ForceMagnitude * (largeGrid ? 1.6f : 1.4f))));
-                        //     break;
-                        //
-                        // case "Atmospheric":
-                        //     // Increase Atmospheric thruster force magnitude
-                        //     OriginalValues.Add(Remember.Create(def, (d) => def.ForceMagnitude,
-                        //         (d, v) => def.ForceMagnitude = v,
-                        //         (def.ForceMagnitude * (largeGrid ? 1.4f : 1.2f))));
-                        //     break;
+                        case "Ion":
+                            // Increase Ion thruster force magnitude
+                            OriginalValues.Add(Remember.Create(def, (d) => def.ForceMagnitude,
+                                (d, v) => def.ForceMagnitude = v,
+                                (def.ForceMagnitude * (largeGrid ? 1.6f : 1.4f))));
+                            break;
+
+                        case "Atmospheric":
+                            // Increase Atmospheric thruster force magnitude
+                            OriginalValues.Add(Remember.Create(def, (d) => def.ForceMagnitude,
+                                (d, v) => def.ForceMagnitude = v,
+                                (def.ForceMagnitude * (largeGrid ? 1.4f : 1.2f))));
+                            break;
                     }
                 }
 
@@ -258,52 +257,52 @@ namespace UDSERebalance.Utilities.Utilities
                 }
 
                 // Double all power generation. Shields and lazors be cray cray. Except nuclear. Nuclear be OP.
-                // else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_WindTurbine))
-                // {
-                //     var def = myCubeBlockDefinition as MyWindTurbineDefinition;
-                //     if (def == null)
-                //         continue;
-                //
-                //     OriginalValues.Add(Remember.Create(def, (d) => d.MaxPowerOutput,
-                //         (d, v) => d.MaxPowerOutput = v,
-                //         (def.MaxPowerOutput * 2)));
-                // }
-                //
-                // else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_SolarPanel))
-                // {
-                //     var def = myCubeBlockDefinition as MySolarPanelDefinition;
-                //     if (def == null)
-                //         continue;
-                //
-                //     OriginalValues.Add(Remember.Create(def, (d) => def.MaxPowerOutput,
-                //         (d, v) => def.MaxPowerOutput = v,
-                //         (def.MaxPowerOutput * 2)));
-                // }
-                //
-                // else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_Reactor))
-                // {
-                //     var def = myCubeBlockDefinition as MyReactorDefinition;
-                //     if (def == null)
-                //         continue;
-                //
-                //     OriginalValues.Add(Remember.Create(def, (d) => d.MaxPowerOutput,
-                //         (d, v) => d.MaxPowerOutput = v,
-                //         (def.MaxPowerOutput / 2)));
-                // }
-                //
-                // else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_HydrogenEngine))
-                // {
-                //     var def = myCubeBlockDefinition as MyHydrogenEngineDefinition;
-                //     if (def == null)
-                //         continue;
-                //
-                //     OriginalValues.Add(Remember.Create(def, (d) => d.MaxPowerOutput,
-                //         (d, v) => d.MaxPowerOutput = v,
-                //         (def.MaxPowerOutput * 3)));
-                //     OriginalValues.Add(Remember.Create(def, (d) => d.FuelCapacity,
-                //         (d, v) => d.FuelCapacity = v,
-                //         (def.FuelCapacity * 3)));
-                // }
+                else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_WindTurbine))
+                {
+                    var def = myCubeBlockDefinition as MyWindTurbineDefinition;
+                    if (def == null)
+                        continue;
+
+                    OriginalValues.Add(Remember.Create(def, (d) => d.MaxPowerOutput,
+                        (d, v) => d.MaxPowerOutput = v,
+                        (def.MaxPowerOutput * 2)));
+                }
+
+                else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_SolarPanel))
+                {
+                    var def = myCubeBlockDefinition as MySolarPanelDefinition;
+                    if (def == null)
+                        continue;
+
+                    OriginalValues.Add(Remember.Create(def, (d) => def.MaxPowerOutput,
+                        (d, v) => def.MaxPowerOutput = v,
+                        (def.MaxPowerOutput * 2)));
+                }
+
+                else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_Reactor))
+                {
+                    var def = myCubeBlockDefinition as MyReactorDefinition;
+                    if (def == null)
+                        continue;
+
+                    OriginalValues.Add(Remember.Create(def, (d) => d.MaxPowerOutput,
+                        (d, v) => d.MaxPowerOutput = v,
+                        (def.MaxPowerOutput / 2)));
+                }
+
+                else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_HydrogenEngine))
+                {
+                    var def = myCubeBlockDefinition as MyHydrogenEngineDefinition;
+                    if (def == null)
+                        continue;
+
+                    OriginalValues.Add(Remember.Create(def, (d) => d.MaxPowerOutput,
+                        (d, v) => d.MaxPowerOutput = v,
+                        (def.MaxPowerOutput * 3)));
+                    OriginalValues.Add(Remember.Create(def, (d) => d.FuelCapacity,
+                        (d, v) => d.FuelCapacity = v,
+                        (def.FuelCapacity * 3)));
+                }
             }
         }
 

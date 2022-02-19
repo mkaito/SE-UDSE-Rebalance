@@ -1,6 +1,8 @@
 ﻿using System;
 
-namespace UDSERebalance.Utilities.Utilities
+// Original code written by Digi:
+// https://discord.com/channels/125011928711036928/126460115204308993/934084145737515098
+namespace UDSERebalance
 {
     public interface IRemember
     {
