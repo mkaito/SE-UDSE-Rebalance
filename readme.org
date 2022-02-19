@@ -22,7 +22,8 @@ even made some of these modifications. These are, of course, only my opinions.
 - Since I pretty much always play with a deep ores mod, increase ore detector range.
 - Ship grinder radius increased so that grinder pits don't end up with blocks stuck between grinders.
 - Ship drill radius increased so that large grid drill ships can have at least one block between drills.
-- Ship welder radius increased so that large grid drill ships can have at least one block between drills.
+- Ship welder radius increased so that you can use fewer, since they are a huge
+  performance hog.
 - Spotlights and lights in general need way more range.
 - Hydrogen thrusters consume way too much fuel for my taste.
 - Ion and Atmo thrusters are slightly more powerful in general, so that compact builds are easier to pull off.
