@@ -157,7 +157,9 @@ namespace UDSERebalance.Utilities.Utilities
                     if (def == null)
                         continue;
 
-                    def.SensorRadius *= largeGrid ? 6f : 3f;
+                    OriginalValues.Add(Remember.Create(def, d => d.SensorRadius,
+                        (d, v) => d.SensorRadius = v,
+                        def.SensorRadius * (largeGrid ? 6 : 3)));
                 }
 
                 // Ship Grinder
