@@ -5,7 +5,7 @@ using VRage.Game.Components;
 
 // This Code based on Enenra's AQD Quality of Life Core code, which in turn is
 // based on Gauge's Balanced Deformation code.
-namespace UDSERebalance.Utilities.Utilities
+namespace UDSERebalance
 {
     [MySessionComponentDescriptor(MyUpdateOrder.NoUpdate)]
     public class DamageMultiplierAdjustments : MySessionComponentBase
@@ -110,16 +110,16 @@ namespace UDSERebalance.Utilities.Utilities
 
         public override void LoadData()
         {
-            //DoWork();
+            DoWork();
             base.LoadData();
         }
 
         protected override void UnloadData()
         {
-            // foreach (var r in OriginalValues)
-            // {
-            //     r.Restore();
-            // }
+            foreach (var r in OriginalValues)
+            {
+                r.Restore();
+            }
             base.UnloadData();
         }
     }

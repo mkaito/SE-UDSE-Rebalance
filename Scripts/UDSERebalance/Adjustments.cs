@@ -3,11 +3,12 @@ using System.Linq;
 using Sandbox.Common.ObjectBuilders;
 using Sandbox.Definitions;
 using UDSERebalance.ConfigData;
+using UDSERebalance.Utilities;
 using VRage.Game;
 using VRage.Game.Components;
 using VRageMath;
 
-namespace UDSERebalance.Utilities.Utilities
+namespace UDSERebalance
 {
     [MySessionComponentDescriptor(MyUpdateOrder.NoUpdate)]
     public class QoLAdjustments : MySessionComponentBase
