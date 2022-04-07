@@ -157,6 +157,10 @@ namespace UDSERebalance
                     var def = myCubeBlockDefinition as MyShipWelderDefinition;
                     if (def == null)
                         continue;
+                    
+                    // This ensures that LyleCorp's / Novar's docking cameras with their specific overlay don't get replaced
+                    if (def.Id.SubtypeId.String.Contains("LargeNaniteControlFacility"))
+                        continue;
 
                     OriginalValues.Add(Remember.Create(def, d => d.SensorRadius,
                         (d, v) => d.SensorRadius = v,
