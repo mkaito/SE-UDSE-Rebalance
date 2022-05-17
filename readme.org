@@ -42,7 +42,6 @@ folder after loading the game at least once with this mod.
 
 ** Blocks
 
-- Courtesy of Enenra of AQD and SEUT fame, a simple and visually pleasing overlay for cameras and turrets.
 - Also courtesy of Enenra, a script that severely reduces damage taken and
   deformation of all armor blocks, especially small grid. (Currently disabled while testing W2)
 - Cockpits and thrusters take 80% less damage. (Disabled while testing W2)
