@@ -18,12 +18,6 @@ namespace UDSERebalance
 
         private void DoWork()
         {
-            // Camera textures courtesy of Enenra of AQD fame
-            const string camTexturePath = @"\Textures\GUI\Screens\camera_overlay.dds";
-            const string turretTexturePath = @"\Textures\GUI\Screens\turret_overlay.dds";
-            var camTextureFullPath = ModContext.ModPath + camTexturePath;
-            var turretTextureFullPath = ModContext.ModPath + turretTexturePath;
-
             const float smallWheelMult = 8;
             const float largeWheelMult = 20;
 
@@ -65,21 +59,6 @@ namespace UDSERebalance
                          .Where(myCubeBlockDefinition => myCubeBlockDefinition?.Components != null))
             {
                 var largeGrid = myCubeBlockDefinition.CubeSize == MyCubeSize.Large;
-
-                // Camera Overlay
-                if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_CameraBlock))
-                {
-                    // This ensures that LyleCorp's / Novar's docking cameras with their specific overlay don't get replaced
-                    if (myCubeBlockDefinition.Id.SubtypeId.String.Contains("DockingCamera"))
-                        continue;
-
-                    var def = myCubeBlockDefinition as MyCameraBlockDefinition;
-                    if (def == null)
-                        continue;
-
-                    OriginalValues.Add(Remember.Create(def, d => d.OverlayTexture, (d, v) => d.OverlayTexture = v,
-                        camTextureFullPath));
-                }
 
                 // Turret Overlay
                 else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_InteriorTurret)
