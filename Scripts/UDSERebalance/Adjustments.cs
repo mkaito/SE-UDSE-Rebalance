@@ -59,19 +59,7 @@ namespace UDSERebalance
                          .Where(myCubeBlockDefinition => myCubeBlockDefinition?.Components != null))
             {
                 var largeGrid = myCubeBlockDefinition.CubeSize == MyCubeSize.Large;
-
-                // Turret Overlay
-                else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_InteriorTurret)
-                         || myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_LargeGatlingTurret)
-                         || myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_LargeMissileTurret))
-                {
-                    var def = myCubeBlockDefinition as MyLargeTurretBaseDefinition;
-                    if (def == null)
-                        continue;
-
-                    OriginalValues.Add(Remember.Create(def, d => d.OverlayTexture, (d, v) => d.OverlayTexture = v,
-                        turretTextureFullPath));
-                }
+                var subtype = myCubeBlockDefinition.Id.SubtypeId.String;
 
                 // Oxygen Farm
                 if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_OxygenFarm))
@@ -177,8 +165,6 @@ namespace UDSERebalance
                     if (def == null)
                         continue;
 
-                    var subtype = def.Id.SubtypeId.String;
-
                     // MES NPC-only thrusters
                     if (subtype.StartsWith("MES-NPC-"))
                         continue;
@@ -280,6 +266,13 @@ namespace UDSERebalance
                 {
                     var def = myCubeBlockDefinition as MyHydrogenEngineDefinition;
                     if (def == null)
+                        continue;
+                        
+                    // ReSharper disable once CommentTypo
+                    // Life'Tech Energy Fusion Reactors
+                    if (subtype.Contains("FusionReactor") 
+                        || subtype.Contains("Fusion_Reactor") 
+                        || subtype.Contains("FusionReaktor"))
                         continue;
 
                     OriginalValues.Add(Remember.Create(def, (d) => d.MaxPowerOutput,
