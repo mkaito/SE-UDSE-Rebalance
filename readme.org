@@ -61,10 +61,11 @@ folder after loading the game at least once with this mod.
   - Large grid heavy armor takes 80% less damage, 90% less deformation.
   - Small grid heavy armor takes 90% less damage, 90% less deformation.
 - Cockpits and thrusters take half as much damage.
-- Wind Turbines produce 2x the output.
-- Solar panels produce 2x the output.
-- Reactors produce half the output.
-- Hydrogen engines produce 3x the output.
+- Wind Turbines produce 4x the output.
+- Solar panels produce 4x the output.
+- Nuclear reactors produce half the output.
+- Hydrogen engines produce 3x the output, 3x fuel efficiency.
+- Energy density of H2 tripled, effectively 9x more efficient in H2 engines.
 - Oxygen farms produce 10x the output.
 - Large grid wheels have 20x the power, friction, use 2.5x the power, and take 5x less damage.
 - Small grid wheels have 8x the power, friction and take 5x less damage.
