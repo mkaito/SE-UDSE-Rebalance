@@ -135,7 +135,7 @@ namespace UDSERebalance
 
                     OriginalValues.Add(Remember.Create(def, d => d.SensorRadius,
                         (d, v) => d.SensorRadius = v,
-                        def.SensorRadius * (largeGrid ? 6 : 3)));
+                        def.SensorRadius * (largeGrid ? 6 : 2)));
                 }
 
                 // Ship Grinder
@@ -147,7 +147,7 @@ namespace UDSERebalance
 
                     OriginalValues.Add(Remember.Create(def, d => d.SensorRadius,
                         (d, v) => d.SensorRadius = v,
-                        def.SensorRadius * (largeGrid ? 2 : 1.25f)));
+                        def.SensorRadius * (largeGrid ? 6 : 1.25f)));
                 }
 
                 // Ship Drill
@@ -159,7 +159,7 @@ namespace UDSERebalance
 
                     OriginalValues.Add(Remember.Create(def, d => d.CutOutRadius,
                         (d, v) => d.CutOutRadius = v,
-                        def.CutOutRadius * (largeGrid ? 2 : 1.3f)));
+                        def.CutOutRadius * (largeGrid ? 6 : 1.4f)));
                 }
 
                 // Thrusters
@@ -176,10 +176,7 @@ namespace UDSERebalance
                     // Rider's Heli-carrier Thrusters
                     if (subtype.Contains("Heli"))
                         continue;
-
-                    //
-                    //   H2 thrusters use a third of the fuel
-                    //
+                    
                     switch (def.ThrusterType.String)
                     {
                         case "Hydrogen":

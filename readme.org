@@ -21,7 +21,7 @@ even made some of these modifications. These are, of course, only my opinions.
   more) thrusters on it as if you were building a ship?
 - Since I pretty much always play with a deep ores mod, increase ore detector range.
 - Ship grinder radius increased so that grinder pits don't end up with blocks stuck between grinders.
-- Ship drill radius increased so that large grid drill ships can have at least one block between drills.
+- Ship drill radius increased so that large grid drills are actually worth using.
 - Ship welder radius increased so that you can use fewer, since they are a huge
   performance hog.
 - Spotlights and lights in general need way more range.
@@ -38,6 +38,7 @@ even made some of these modifications. These are, of course, only my opinions.
   - Life'Tech Powers fusion reactors
   - MES NPC thrusters
   - Rider's Helicarrier Thrusters MK II
+  - Nanite Control Factory (is actually a welder, increasing radius turns it into a death machine)
 
 ** Character
 
@@ -70,9 +71,9 @@ folder after loading the game at least once with this mod.
 - Ore detectors have 5x the range.
 - Laser antenna uses 90% less damage while lasing.
 - Laser antenna does not require line of sight (configurable).
-- Ship grinder radius increased 2x for large grid, 1.25x for small grid.
-- Ship drill radius increased 3x for large grid, 1.3x for small grid.
-- Ship welder radius increased 2x for large grid, 1.1x for small grid.
+- Ship grinder radius increased 6x for large grid, 1.25x for small grid.
+- Ship drill radius increased 6x for large grid, 1.4x for small grid.
+- Ship welder radius increased 6x for large grid, 2x for small grid.
 - Hydrogen thrusters consume one third of the fuel.
 - Atmo thrusters force magnitude x1.6 for large grid, x1.4 for small grid.
 - Ion thrusters force magnitude x1.4 for large grid, x1.2 for small grid.
