@@ -117,7 +117,7 @@ namespace UDSERebalance
                         (d, v) => d.PowerInputLasing = v,
                         def.PowerInputLasing / (largeGrid ? 10 : 20)));
                     
-                    if (ModSaveData.LaserAntennaRequireLOS)
+                    if (!ModSaveData.LaserAntennaRequireLOS)
                         OriginalValues.Add(Remember.Create(def, d => d.RequireLineOfSight,
                             (d, v) => d.RequireLineOfSight = v, false ));
                 }
@@ -295,7 +295,7 @@ namespace UDSERebalance
                 {
                     BoostOxygenConsumption = true,
                     NerfJetpack = true,
-                    LaserAntennaRequireLOS = true,
+                    LaserAntennaRequireLOS = false,
                 };
 
                 Config.WriteFileToWorldStorage("rebalance.xml", typeof(SaveData), ModSaveData);
