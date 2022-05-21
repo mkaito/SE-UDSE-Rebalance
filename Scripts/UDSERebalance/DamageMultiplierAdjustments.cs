@@ -23,29 +23,29 @@ namespace UDSERebalance
                 var myCockpitDef = def as MyCockpitDefinition;
                 if (myCockpitDef != null)
                     OriginalValues.Add(Remember.Create(myCockpitDef, d => d.GeneralDamageMultiplier,
-                        (d, v) => d.GeneralDamageMultiplier = v, 0.2f));
+                        (d, v) => d.GeneralDamageMultiplier = v, 0.5f));
 
                 var myThrusterDef = def as MyThrustDefinition;
                 if (myThrusterDef != null)
                     OriginalValues.Add(Remember.Create(myThrusterDef, d => d.GeneralDamageMultiplier,
-                        (d, v) => d.GeneralDamageMultiplier = v, 0.2f));
+                        (d, v) => d.GeneralDamageMultiplier = v, 0.5f));
 
                 var myWheelDef = def as MyMotorSuspensionDefinition;
                 if (myWheelDef != null)
                     OriginalValues.Add(Remember.Create(myWheelDef, d => d.GeneralDamageMultiplier,
-                        (d, v) => d.GeneralDamageMultiplier = v, 0.2f));
+                        (d, v) => d.GeneralDamageMultiplier = v, 0.5f));
             }
         }
 
         private void AdjustArmorBlocks(MyCubeBlockDefinition blockDef)
         {
-            const float LightArmorLargeDamageMod = 0.4f;
-            const float LightArmorLargeDeformationMod = 0.2f;
-            const float LightArmorSmallDamageMod = 0.05f;
-            const float LightArmorSmallDeformationMod = 0.1f;
+            const float LightArmorLargeDamageMod = 0.6f;
+            const float LightArmorLargeDeformationMod = 0.4f;
+            const float LightArmorSmallDamageMod = 0.4f;
+            const float LightArmorSmallDeformationMod = 0.4f;
 
-            const float HeavyArmorLargeDamageMod = 0.4f;
-            const float HeavyArmorLargeDeformationMod = 0.2f;
+            const float HeavyArmorLargeDamageMod = 0.2f;
+            const float HeavyArmorLargeDeformationMod = 0.1f;
             const float HeavyArmorSmallDamageMod = 0.1f;
             const float HeavyArmorSmallDeformationMod = 0.1f;
 

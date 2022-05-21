@@ -116,6 +116,10 @@ namespace UDSERebalance
                     OriginalValues.Add(Remember.Create(def, d => d.PowerInputLasing,
                         (d, v) => d.PowerInputLasing = v,
                         def.PowerInputLasing / (largeGrid ? 10 : 20)));
+                    
+                    if (ModSaveData.LaserAntennaRequireLOS)
+                        OriginalValues.Add(Remember.Create(def, d => d.RequireLineOfSight,
+                            (d, v) => d.RequireLineOfSight = v, false ));
                 }
 
                 // Ship Welder
@@ -293,7 +297,8 @@ namespace UDSERebalance
                 ModSaveData = new SaveData
                 {
                     BoostOxygenConsumption = true,
-                    NerfJetpack = true
+                    NerfJetpack = true,
+                    LaserAntennaRequireLOS = true,
                 };
 
                 Config.WriteFileToWorldStorage("rebalance.xml", typeof(SaveData), ModSaveData);

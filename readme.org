@@ -26,7 +26,18 @@ even made some of these modifications. These are, of course, only my opinions.
   performance hog.
 - Spotlights and lights in general need way more range.
 - Hydrogen thrusters consume way too much fuel for my taste.
-- Ion and Atmo thrusters are slightly more powerful in general, so that compact builds are easier to pull off.
+- Ion and Atmo thrusters are slightly more powerful in general, so that compact
+  builds are easier to pull off.
+- Armour, thrusters and cockpits have had their damage multiplier reduced quite
+  a bit. Heavy armour is now actually worth using.
+- Deformation ratios for all armour reduced dramatically. And it's a shame I
+  can't disable it completely. Worst game mechanic, right up there with Lightning.
+
+- All adjustments apply to modded blocks that share the same Type ID as vanilla blocks.
+- Some subtypes have been explicitly excluded:
+  - Life'Tech Powers fusion reactors
+  - MES NPC thrusters
+  - Rider's Helicarrier Thrusters MK II
 
 ** Character
 
@@ -43,8 +54,12 @@ folder after loading the game at least once with this mod.
 ** Blocks
 
 - Also courtesy of Enenra, a script that severely reduces damage taken and
-  deformation of all armor blocks, especially small grid. (Currently disabled while testing W2)
-- Cockpits and thrusters take 80% less damage. (Disabled while testing W2)
+  deformation of all armor blocks, especially heavy armour.
+  - Large grid light armor takes 40% less damage, 60% less deformation.
+  - Small grid light armor takes 60% less damage, 60% less deformation.
+  - Large grid heavy armor takes 80% less damage, 90% less deformation.
+  - Small grid heavy armor takes 90% less damage, 90% less deformation.
+- Cockpits and thrusters take half as much damage.
 - Wind Turbines produce 2x the output.
 - Solar panels produce 2x the output.
 - Reactors produce half the output.
@@ -54,6 +69,7 @@ folder after loading the game at least once with this mod.
 - Small grid wheels have 8x the power, friction and take 5x less damage.
 - Ore detectors have 5x the range.
 - Laser antenna uses 90% less damage while lasing.
+- Laser antenna does not require line of sight (configurable).
 - Ship grinder radius increased 2x for large grid, 1.25x for small grid.
 - Ship drill radius increased 3x for large grid, 1.3x for small grid.
 - Ship welder radius increased 2x for large grid, 1.1x for small grid.
