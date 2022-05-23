@@ -69,7 +69,7 @@ folder after loading the game at least once with this mod.
 - Oxygen farms produce 10x the output.
 - Large grid wheels have 20x the power, friction, use 2.5x the power, and take 5x less damage.
 - Small grid wheels have 8x the power, friction and take 5x less damage.
-- Ore detectors have 5x the range.
+- Ore detectors have 20x the range.
 - Laser antenna uses 90% less damage while lasing.
 - Laser antenna does not require line of sight (configurable).
 - Ship grinder radius increased 6x for large grid, 1.25x for small grid.

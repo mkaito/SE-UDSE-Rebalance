@@ -103,7 +103,7 @@ namespace UDSERebalance
                     // Large 150m
                     OriginalValues.Add(Remember.Create(def, d => d.MaximumRange,
                         (d, v) => d.MaximumRange = v,
-                        def.MaximumRange * 9));
+                            def.MaximumRange * 20));
                 }
 
                 // Laser Antenna
@@ -116,7 +116,7 @@ namespace UDSERebalance
                     OriginalValues.Add(Remember.Create(def, d => d.PowerInputLasing,
                         (d, v) => d.PowerInputLasing = v,
                         def.PowerInputLasing / (largeGrid ? 10 : 20)));
-                    
+
                     if (!ModSaveData.LaserAntennaRequireLOS)
                         OriginalValues.Add(Remember.Create(def, d => d.RequireLineOfSight,
                             (d, v) => d.RequireLineOfSight = v, false ));
@@ -128,7 +128,7 @@ namespace UDSERebalance
                     var def = myCubeBlockDefinition as MyShipWelderDefinition;
                     if (def == null)
                         continue;
-                    
+
                     // This ensures that LyleCorp's / Novar's docking cameras with their specific overlay don't get replaced
                     if (def.Id.SubtypeId.String.Contains("LargeNaniteControlFacility"))
                         continue;
@@ -176,7 +176,7 @@ namespace UDSERebalance
                     // Rider's Heli-carrier Thrusters
                     if (subtype.Contains("Heli"))
                         continue;
-                    
+
                     switch (def.ThrusterType.String)
                     {
                         case "Hydrogen":
@@ -268,11 +268,11 @@ namespace UDSERebalance
                     var def = myCubeBlockDefinition as MyHydrogenEngineDefinition;
                     if (def == null)
                         continue;
-                        
+
                     // ReSharper disable once CommentTypo
                     // Life'Tech Energy Fusion Reactors
-                    if (subtype.Contains("FusionReactor") 
-                        || subtype.Contains("Fusion_Reactor") 
+                    if (subtype.Contains("FusionReactor")
+                        || subtype.Contains("Fusion_Reactor")
                         || subtype.Contains("FusionReaktor"))
                         continue;
 
