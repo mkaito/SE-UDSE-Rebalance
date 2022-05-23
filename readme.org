@@ -25,13 +25,15 @@ even made some of these modifications. These are, of course, only my opinions.
 - Ship welder radius increased so that you can use fewer, since they are a huge
   performance hog.
 - Spotlights and lights in general need way more range.
-- Hydrogen thrusters consume way too much fuel for my taste.
-- Ion and Atmo thrusters are slightly more powerful in general, so that compact
-  builds are easier to pull off.
 - Armour, thrusters and cockpits have had their damage multiplier reduced quite
   a bit. Heavy armour is now actually worth using.
 - Deformation ratios for all armour reduced dramatically. And it's a shame I
   can't disable it completely. Worst game mechanic, right up there with Lightning.
+
+Currently testing an alternative thruster balance concept: Atmo and Ion can only
+be used in either armosphere or space; so I've made them strong, but they
+consume more power. H2 can be used anywhere, but they're weak and consume less
+fuel.
 
 - All adjustments apply to modded blocks that share the same Type ID as vanilla blocks.
 - Some subtypes have been explicitly excluded:
@@ -75,8 +77,7 @@ folder after loading the game at least once with this mod.
 - Ship grinder radius increased 6x for large grid, 1.25x for small grid.
 - Ship drill radius increased 6x for large grid, 1.4x for small grid.
 - Ship welder radius increased 6x for large grid, 2x for small grid.
-- Hydrogen thrusters consume one third of the fuel.
-- Atmo thrusters force magnitude x1.6 for large grid, x1.4 for small grid.
-- Ion thrusters force magnitude x1.4 for large grid, x1.2 for small grid.
+- Hydrogen thruster force magnitude x0.8 LG, x0.6 SG; fuel consumption x0.4
+- Atmo/Ion thruster force magnitude x1.8 LG, x1.6 SG, power consumption x1.5
 - Spotlight range increased to 780m on large grid, 480m on small.
 - Interior lights (and corner lights, etc) range increased to 200m on large grid, 100m on small.

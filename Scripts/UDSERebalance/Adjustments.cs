@@ -177,29 +177,44 @@ namespace UDSERebalance
                     if (subtype.Contains("Heli"))
                         continue;
 
+                    // Thruster balance based on where a thruster type is
+                    // usable, rather than whether they need a conveyor.
+                    //   * Atmo and Ion can be used only in atmo or space; are
+                    //     stronger, consume more power.
+                    //   * H2 can be used anywhere; are weaker, use less fuel.
                     switch (def.ThrusterType.String)
                     {
                         case "Hydrogen":
-                            // Increase H2 thruster fuel efficiency
+                            OriginalValues.Add(Remember.Create(def, (d) => def.ForceMagnitude,
+                                (d, v) => def.ForceMagnitude = v,
+                                (def.ForceMagnitude * (largeGrid ? 0.8f : 0.6f))));
+
                             OriginalValues.Add(Remember.Create(def.FuelConverter, (d) => d.Efficiency,
                                 (d, v) => d.Efficiency = v, 1));
+
                             OriginalValues.Add(Remember.Create(def, (d) => d.MaxPowerConsumption,
                                 (d, v) => d.MaxPowerConsumption = v,
-                                (def.MaxPowerConsumption / 3)));
+                                (def.MaxPowerConsumption * 0.4)));
                             break;
 
                         case "Ion":
-                            // Increase Ion thruster force magnitude
                             OriginalValues.Add(Remember.Create(def, (d) => def.ForceMagnitude,
                                 (d, v) => def.ForceMagnitude = v,
-                                (def.ForceMagnitude * (largeGrid ? 1.6f : 1.4f))));
+                                (def.ForceMagnitude * (largeGrid ? 1.8f : 1.6f))));
+
+                            OriginalValues.Add(Remember.Create(def, (d) => d.MaxPowerConsumption,
+                                (d, v) => d.MaxPowerConsumption = v,
+                                (def.MaxPowerConsumption * 1.5)));
                             break;
 
                         case "Atmospheric":
-                            // Increase Atmospheric thruster force magnitude
                             OriginalValues.Add(Remember.Create(def, (d) => def.ForceMagnitude,
                                 (d, v) => def.ForceMagnitude = v,
-                                (def.ForceMagnitude * (largeGrid ? 1.4f : 1.2f))));
+                                (def.ForceMagnitude * (largeGrid ? 1.8f : 1.6f))));
+
+                            OriginalValues.Add(Remember.Create(def, (d) => d.MaxPowerConsumption,
+                                (d, v) => d.MaxPowerConsumption = v,
+                                (def.MaxPowerConsumption * 1.5)));
                             break;
                     }
                 }
