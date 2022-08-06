@@ -144,7 +144,7 @@ namespace UDSERebalance
                     var def = myCubeBlockDefinition as MyShipGrinderDefinition;
                     if (def == null)
                         continue;
-
+                        
                     OriginalValues.Add(Remember.Create(def, d => d.SensorRadius,
                         (d, v) => d.SensorRadius = v,
                         def.SensorRadius * (largeGrid ? 6 : 1.25f)));
@@ -161,60 +161,60 @@ namespace UDSERebalance
                         (d, v) => d.CutOutRadius = v,
                         def.CutOutRadius * (largeGrid ? 6 : 1.4f)));
                 }
-
+                
                 // Thrusters
                 else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_Thrust))
                 {
                     var def = myCubeBlockDefinition as MyThrustDefinition;
                     if (def == null)
                         continue;
-
+                
                     // MES NPC-only thrusters
                     if (subtype.StartsWith("MES-NPC-"))
                         continue;
-
+                
                     // Rider's Heli-carrier Thrusters
                     if (subtype.Contains("Heli"))
                         continue;
-
+                
                     // Thruster balance based on where a thruster type is
                     // usable, rather than whether they need a conveyor.
-                    //   * Atmo and Ion can be used only in atmo or space; are
-                    //     stronger, consume more power.
-                    //   * H2 can be used anywhere; are weaker, use less fuel.
+                    //   * Atmospheric and Ion can be used only in atmosphere or space; are
+                    //     stronger, consume much more power.
+                    //   * H2 can be used anywhere; are weaker, use much less fuel.
                     switch (def.ThrusterType.String)
                     {
                         case "Hydrogen":
                             OriginalValues.Add(Remember.Create(def, (d) => def.ForceMagnitude,
                                 (d, v) => def.ForceMagnitude = v,
-                                (def.ForceMagnitude * (largeGrid ? 0.8f : 0.6f))));
-
+                                (def.ForceMagnitude * (largeGrid ? 0.9f : 0.8f))));
+                
                             OriginalValues.Add(Remember.Create(def.FuelConverter, (d) => d.Efficiency,
                                 (d, v) => d.Efficiency = v, 1));
-
+                
                             OriginalValues.Add(Remember.Create(def, (d) => d.MaxPowerConsumption,
                                 (d, v) => d.MaxPowerConsumption = v,
-                                (def.MaxPowerConsumption * 0.4)));
+                                (def.MaxPowerConsumption * 0.4f)));
                             break;
-
+                
                         case "Ion":
                             OriginalValues.Add(Remember.Create(def, (d) => def.ForceMagnitude,
                                 (d, v) => def.ForceMagnitude = v,
-                                (def.ForceMagnitude * (largeGrid ? 1.8f : 1.6f))));
-
+                                (def.ForceMagnitude * (largeGrid ? 2.4f : 1.8f))));
+                
                             OriginalValues.Add(Remember.Create(def, (d) => d.MaxPowerConsumption,
                                 (d, v) => d.MaxPowerConsumption = v,
-                                (def.MaxPowerConsumption * 1.5)));
+                                (def.MaxPowerConsumption * 3f)));
                             break;
-
+                
                         case "Atmospheric":
                             OriginalValues.Add(Remember.Create(def, (d) => def.ForceMagnitude,
                                 (d, v) => def.ForceMagnitude = v,
-                                (def.ForceMagnitude * (largeGrid ? 1.8f : 1.6f))));
-
+                                (def.ForceMagnitude * (largeGrid ? 2.4f : 1.8f))));
+                
                             OriginalValues.Add(Remember.Create(def, (d) => d.MaxPowerConsumption,
                                 (d, v) => d.MaxPowerConsumption = v,
-                                (def.MaxPowerConsumption * 1.5)));
+                                (def.MaxPowerConsumption * 3f)));
                             break;
                     }
                 }
@@ -244,7 +244,10 @@ namespace UDSERebalance
                         largeGrid ? new MyBounds(1, 200, 20) : new MyBounds(1, 100, 20)));
                 }
 
-                // Double all power generation. Shields and lazors be cray cray. Except nuclear. Nuclear be OP.
+                // Increase power generation of wind turbines and solar panels.
+                // Decrease reactor output
+                // Increase H2 engine output
+                // Increase battery output (not input or capacity!)
                 else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_WindTurbine))
                 {
                     var def = myCubeBlockDefinition as MyWindTurbineDefinition;
@@ -298,6 +301,19 @@ namespace UDSERebalance
                         (d, v) => d.FuelProductionToCapacityMultiplier = v,
                         (def.FuelProductionToCapacityMultiplier * 3)));
                 }
+                
+                // Batteries
+                else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_BatteryBlock))
+                {
+                    var def = myCubeBlockDefinition as MyBatteryBlockDefinition;
+                    if (def == null)
+                        continue;
+                    
+                    OriginalValues.Add(Remember.Create(def, d => d.MaxPowerOutput,
+                        (d, v) => d.MaxPowerOutput = v,
+                        def.MaxPowerOutput * 2));
+                }
+
             }
         }
 

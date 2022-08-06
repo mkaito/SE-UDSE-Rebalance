@@ -29,11 +29,7 @@ even made some of these modifications. These are, of course, only my opinions.
   a bit. Heavy armour is now actually worth using.
 - Deformation ratios for all armour reduced dramatically. And it's a shame I
   can't disable it completely. Worst game mechanic, right up there with Lightning.
-
-Currently testing an alternative thruster balance concept: Atmo and Ion can only
-be used in either armosphere or space; so I've made them strong, but they
-consume more power. H2 can be used anywhere, but they're weak and consume less
-fuel.
+  
 
 - All adjustments apply to modded blocks that share the same Type ID as vanilla blocks.
 - Some subtypes have been explicitly excluded:
@@ -41,6 +37,22 @@ fuel.
   - MES NPC thrusters
   - Rider's Helicarrier Thrusters MK II
   - Nanite Control Factory (is actually a welder, increasing radius turns it into a death machine)
+  
+** Thruster rebalance concept
+
+Currently testing a locale-based thruster rebalance model. 
+
+Ion and Atmospheric thrusters can only be used in one locale (space and atmosphere respectively), while H2 thrusters can be used anywhere. The idea is that locale-restricted thrusters are more optimized for their specific locale, and are thus much more powerful. They also use much more power to retain a semblance of balance.
+
+H2 thrusters can be used anywhere and require no power, but require plumbing and explosive H2 tanks. They are also weaker, but consume much less fuel.
+
+Single-locale ships can use much fewer thrusters, but require extra power generation. The increased power output from solar panels and batteries will help.
+
+Locale-agnostic ships are fuel efficient, but require comparatively more thrusters, more even than using both locale-specific thruster types together.
+
+Thrust values significantly favour large grid large thrusters
+
+I'm not sure how this will work out, but it's worth a try.
 
 ** Character
 
@@ -67,17 +79,23 @@ folder after loading the game at least once with this mod.
 - Solar panels produce 4x the output.
 - Nuclear reactors produce half the output.
 - Hydrogen engines produce 3x the output, 3x fuel efficiency.
+- Battery maximum output x2
 - Energy density of H2 tripled, effectively 9x more efficient in H2 engines.
 - Oxygen farms produce 10x the output.
 - Large grid wheels have 20x the power, friction, use 2.5x the power, and take 5x less damage.
 - Small grid wheels have 8x the power, friction and take 5x less damage.
-- Ore detectors have 20x the range.
+- Ore detectors have 20x the range (Using range over 1.2k on planets is problematic. Blame Keen.)
 - Laser antenna uses 90% less damage while lasing.
 - Laser antenna does not require line of sight (configurable).
 - Ship grinder radius increased 6x for large grid, 1.25x for small grid.
 - Ship drill radius increased 6x for large grid, 1.4x for small grid.
 - Ship welder radius increased 6x for large grid, 2x for small grid.
-- Hydrogen thruster force magnitude x0.8 LG, x0.6 SG; fuel consumption x0.4
-- Atmo/Ion thruster force magnitude x1.8 LG, x1.6 SG, power consumption x1.5
 - Spotlight range increased to 780m on large grid, 480m on small.
 - Interior lights (and corner lights, etc) range increased to 200m on large grid, 100m on small.
+- Locale-based thruster rebalance
+  - H2 thrust 0.9x for large grid, 0.8x for small grid
+  - H2 fuel usage x0.4
+  - Ion thrust 2.4x for large grid, 1.8x for small grid
+  - Ion power usage 3x
+  - Atmospheric thrust 2.4x for large grid, 1.8x for small grid
+  - Atmospheric power usage 3x
