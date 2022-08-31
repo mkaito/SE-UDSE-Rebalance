@@ -39,15 +39,11 @@ namespace UDSERebalance
 
         private void AdjustArmorBlocks(MyCubeBlockDefinition blockDef)
         {
-            const float LightArmorLargeDamageMod = 0.6f;
-            const float LightArmorLargeDeformationMod = 0.4f;
+            const float LightArmorLargeDamageMod = 0.5f;
             const float LightArmorSmallDamageMod = 0.4f;
-            const float LightArmorSmallDeformationMod = 0.4f;
 
-            const float HeavyArmorLargeDamageMod = 0.2f;
-            const float HeavyArmorLargeDeformationMod = 0.1f;
-            const float HeavyArmorSmallDamageMod = 0.1f;
-            const float HeavyArmorSmallDeformationMod = 0.1f;
+            const float HeavyArmorLargeDamageMod = 0.4f;
+            const float HeavyArmorSmallDamageMod = 0.2f;
 
             if (blockDef.BlockTopology == MyBlockTopology.TriangleMesh &&
                 !(blockDef.Id.SubtypeName.StartsWith("AQD_LG_LA_") ||
@@ -65,17 +61,11 @@ namespace UDSERebalance
                             OriginalValues.Add(Remember.Create(blockDef, d => d.GeneralDamageMultiplier,
                                 (d, v) => d.GeneralDamageMultiplier = v,
                                 LightArmorLargeDamageMod));
-                            OriginalValues.Add(Remember.Create(blockDef, d => d.DeformationRatio,
-                                (d, v) => d.DeformationRatio = v,
-                                LightArmorLargeDeformationMod));
                             break;
                         case MyCubeSize.Small:
                             OriginalValues.Add(Remember.Create(blockDef, d => d.GeneralDamageMultiplier,
                                 (d, v) => d.GeneralDamageMultiplier = v,
                                 LightArmorSmallDamageMod));
-                            OriginalValues.Add(Remember.Create(blockDef, d => d.DeformationRatio,
-                                (d, v) => d.DeformationRatio = v,
-                                LightArmorSmallDeformationMod));
                             break;
                     }
 
@@ -89,17 +79,11 @@ namespace UDSERebalance
                             OriginalValues.Add(Remember.Create(blockDef, d => d.GeneralDamageMultiplier,
                                 (d, v) => d.GeneralDamageMultiplier = v,
                                 HeavyArmorLargeDamageMod));
-                            OriginalValues.Add(Remember.Create(blockDef, d => d.DeformationRatio,
-                                (d, v) => d.DeformationRatio = v,
-                                HeavyArmorLargeDeformationMod));
                             break;
                         case MyCubeSize.Small:
                             OriginalValues.Add(Remember.Create(blockDef, d => d.GeneralDamageMultiplier,
                                 (d, v) => d.GeneralDamageMultiplier = v,
                                 HeavyArmorSmallDamageMod));
-                            OriginalValues.Add(Remember.Create(blockDef, d => d.DeformationRatio,
-                                (d, v) => d.DeformationRatio = v,
-                                HeavyArmorSmallDeformationMod));
                             break;
                     }
 

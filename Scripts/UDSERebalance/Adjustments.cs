@@ -2,6 +2,7 @@
 using System.Linq;
 using Sandbox.Common.ObjectBuilders;
 using Sandbox.Definitions;
+using SpaceEngineers.Game.Definitions.SafeZone;
 using UDSERebalance.ConfigData;
 using UDSERebalance.Utilities;
 using VRage.Game;
@@ -177,18 +178,13 @@ namespace UDSERebalance
                     if (subtype.Contains("Heli"))
                         continue;
                 
-                    // Thruster balance based on where a thruster type is
-                    // usable, rather than whether they need a conveyor.
-                    //   * Atmospheric and Ion can be used only in atmosphere or space; are
-                    //     stronger, consume much more power.
-                    //   * H2 can be used anywhere; are weaker, use much less fuel.
                     switch (def.ThrusterType.String)
                     {
                         case "Hydrogen":
                             OriginalValues.Add(Remember.Create(def, (d) => def.ForceMagnitude,
                                 (d, v) => def.ForceMagnitude = v,
-                                (def.ForceMagnitude * (largeGrid ? 0.9f : 0.8f))));
-                
+                                (def.ForceMagnitude * (largeGrid ? 2f : 1.2f))));
+                            
                             OriginalValues.Add(Remember.Create(def.FuelConverter, (d) => d.Efficiency,
                                 (d, v) => d.Efficiency = v, 1));
                 
@@ -200,21 +196,13 @@ namespace UDSERebalance
                         case "Ion":
                             OriginalValues.Add(Remember.Create(def, (d) => def.ForceMagnitude,
                                 (d, v) => def.ForceMagnitude = v,
-                                (def.ForceMagnitude * (largeGrid ? 2.4f : 1.8f))));
-                
-                            OriginalValues.Add(Remember.Create(def, (d) => d.MaxPowerConsumption,
-                                (d, v) => d.MaxPowerConsumption = v,
-                                (def.MaxPowerConsumption * 3f)));
+                                (def.ForceMagnitude * (largeGrid ? 2f : 1.2f))));
                             break;
                 
                         case "Atmospheric":
                             OriginalValues.Add(Remember.Create(def, (d) => def.ForceMagnitude,
                                 (d, v) => def.ForceMagnitude = v,
-                                (def.ForceMagnitude * (largeGrid ? 2.4f : 1.8f))));
-                
-                            OriginalValues.Add(Remember.Create(def, (d) => d.MaxPowerConsumption,
-                                (d, v) => d.MaxPowerConsumption = v,
-                                (def.MaxPowerConsumption * 3f)));
+                                (def.ForceMagnitude * (largeGrid ? 2f : 1.2f))));
                             break;
                     }
                 }
@@ -232,7 +220,8 @@ namespace UDSERebalance
                 }
 
                 // Interior lights, corner lights, etc
-                else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_InteriorLight))
+                else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_InteriorLight)
+                      || myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_LightingBlock))
                 {
                     var def = myCubeBlockDefinition as MyLightingBlockDefinition;
                     if (def == null)
@@ -243,7 +232,7 @@ namespace UDSERebalance
                         (d, v) => d.LightRadius = v,
                         largeGrid ? new MyBounds(1, 200, 20) : new MyBounds(1, 100, 20)));
                 }
-
+                
                 // Increase power generation of wind turbines and solar panels.
                 // Decrease reactor output
                 // Increase H2 engine output
@@ -302,16 +291,22 @@ namespace UDSERebalance
                         (def.FuelProductionToCapacityMultiplier * 3)));
                 }
                 
-                // Batteries
-                else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_BatteryBlock))
+                // Safe Zones
+                else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_SafeZone))
                 {
-                    var def = myCubeBlockDefinition as MyBatteryBlockDefinition;
+                    var def = myCubeBlockDefinition as MySafeZoneBlockDefinition;
                     if (def == null)
                         continue;
                     
-                    OriginalValues.Add(Remember.Create(def, d => d.MaxPowerOutput,
-                        (d, v) => d.MaxPowerOutput = v,
-                        def.MaxPowerOutput * 2));
+                    // Min usage 1MW
+                    OriginalValues.Add(Remember.Create(def, d => d.MaxSafeZonePowerDrainkW,
+                        (d, v) => d.MaxSafeZonePowerDrainkW = v, 10));
+                    // Max usage 100MW
+                    OriginalValues.Add(Remember.Create(def, d => d.MinSafeZonePowerDrainkW,
+                        (d, v) => d.MinSafeZonePowerDrainkW = v, 1000));
+                    // 24h per chip
+                    OriginalValues.Add(Remember.Create(def, d => d.SafeZoneUpkeepTimeM,
+                        (d, v) => d.SafeZoneUpkeepTimeM = v, (24u * 60)));
                 }
 
             }

@@ -26,11 +26,13 @@ even made some of these modifications. These are, of course, only my opinions.
   performance hog.
 - Spotlights and lights in general need way more range.
 - Armour, thrusters and cockpits have had their damage multiplier reduced quite
-  a bit. Heavy armour is now actually worth using.
-- Deformation ratios for all armour reduced dramatically. And it's a shame I
-  can't disable it completely. Worst game mechanic, right up there with Lightning.
+  a bit. Heavy armour is now actually worth using, even on small grid.
+- The whole economy system is a joke, but I use safe zones anyway, so I've added
+  a recipe to craft the chips. Also reduced power usage of safe zones and made
+  chips last 24h.
+- H2 thrusters use less fuel so H2 ships are not 60% H2 tanks by volume.
+- Thruster force magnitude increased a fair bit, to make compact and aesthetic builds viable.
   
-
 - All adjustments apply to modded blocks that share the same Type ID as vanilla blocks.
 - Some subtypes have been explicitly excluded:
   - Life'Tech Powers fusion reactors
@@ -68,12 +70,11 @@ folder after loading the game at least once with this mod.
 
 ** Blocks
 
-- Also courtesy of Enenra, a script that severely reduces damage taken and
-  deformation of all armor blocks, especially heavy armour.
-  - Large grid light armor takes 40% less damage, 60% less deformation.
-  - Small grid light armor takes 60% less damage, 60% less deformation.
-  - Large grid heavy armor takes 80% less damage, 90% less deformation.
-  - Small grid heavy armor takes 90% less damage, 90% less deformation.
+- Also courtesy of Enenra, a script that severely reduces damage taken for all armor blocks, especially heavy armour, and doubly so for small grid armour.
+  - Large grid light armor takes 50% less damage.
+  - Small grid light armor takes 60% less damage.
+  - Large grid heavy armor takes 60% less damage.
+  - Small grid heavy armor takes 80% less damage.
 - Cockpits and thrusters take half as much damage.
 - Wind Turbines produce 4x the output.
 - Solar panels produce 4x the output.
@@ -91,11 +92,12 @@ folder after loading the game at least once with this mod.
 - Ship drill radius increased 6x for large grid, 1.4x for small grid.
 - Ship welder radius increased 6x for large grid, 2x for small grid.
 - Spotlight range increased to 780m on large grid, 480m on small.
-- Interior lights (and corner lights, etc) range increased to 200m on large grid, 100m on small.
-- Locale-based thruster rebalance
-  - H2 thrust 0.9x for large grid, 0.8x for small grid
+- Interior lights (and corner lights, panels, etc) range increased to 200m on large grid, 100m on small.
+- Safe Zone
+  - Minimum power usage set to 1MW
+  - Maximum power usage set to 100MW
+  - Zone Chips last 24h
+  - Zone Chips craftable in assembler (not basic, the big one)
+- Thruster rebalance
+  - All thrusters have 2x thrust for LG and 1.2x for SG
   - H2 fuel usage x0.4
-  - Ion thrust 2.4x for large grid, 1.8x for small grid
-  - Ion power usage 3x
-  - Atmospheric thrust 2.4x for large grid, 1.8x for small grid
-  - Atmospheric power usage 3x
