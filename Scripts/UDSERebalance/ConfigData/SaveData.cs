@@ -4,6 +4,6 @@
     {
         public bool BoostOxygenConsumption;
         public bool NerfJetpack;
-        public bool LaserAntennaRequireLOS;
+        public bool LaserAntennaRequireLos;
     }
 }

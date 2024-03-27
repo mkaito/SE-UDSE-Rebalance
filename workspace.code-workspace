@@ -4,9 +4,14 @@
 			"path": "."
 		},
 		{
-			"path": "D:\\SteamLibrary\\steamapps\\common\\SpaceEngineers\\Content\\Data",
+			"path": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\SpaceEngineers\\Content\\Data",
 			"name": "Game Data"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"cSpell.words": [
+			"Jetpack",
+			"Mult"
+		]
+	}
 }

@@ -11,22 +11,22 @@ namespace UDSERebalance
 
     public class Remember<TDef, TVal> : IRemember
     {
-        private readonly TDef Def;
-        private readonly TVal OriginalValue;
-        private readonly Action<TDef, TVal> VSetter;
+        private readonly TDef _def;
+        private readonly TVal _originalValue;
+        private readonly Action<TDef, TVal> _vSetter;
 
         public Remember(TDef def, Func<TDef, TVal> getter, Action<TDef, TVal> setter, TVal value)
         {
-            Def = def;
-            VSetter = setter;
+            _def = def;
+            _vSetter = setter;
 
-            OriginalValue = getter.Invoke(Def);
-            VSetter.Invoke(Def, value);
+            _originalValue = getter.Invoke(_def);
+            _vSetter.Invoke(_def, value);
         }
 
         public void Restore()
         {
-            VSetter.Invoke(Def, OriginalValue);
+            _vSetter.Invoke(_def, _originalValue);
         }
     }
 

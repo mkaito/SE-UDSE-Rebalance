@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="UserContentModel">
-    <attachedFolders />
+    <attachedFolders>
+      <Path>../../../../../../../../../Program Files (x86)/Steam/steamapps/common/SpaceEngineers/Content/Data</Path>
+      <Path>../../../UDSERebalance</Path>
+    </attachedFolders>
     <explicitIncludes />
-    <explicitExcludes />
+    <explicitExcludes>
+      <Path>../../../../../../../../../Program Files (x86)/Steam/steamapps/common/SpaceEngineers/Content/Data/Localization</Path>
+      <Path>../../../../../../../../../Program Files (x86)/Steam/steamapps/common/SpaceEngineers/Content/Data/Prefabs</Path>
+    </explicitExcludes>
   </component>
 </project>

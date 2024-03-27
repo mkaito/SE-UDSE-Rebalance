@@ -11,7 +11,9 @@ namespace UDSERebalance.Utilities
             try
             {
                 if (!MyAPIGateway.Utilities.FileExistsInWorldStorage(filename, type))
+                {
                     return default(T);
+                }
 
                 using (var reader = MyAPIGateway.Utilities.ReadFileInWorldStorage(filename, type))
                 {
@@ -34,7 +36,9 @@ namespace UDSERebalance.Utilities
             try
             {
                 if (!MyAPIGateway.Utilities.FileExistsInLocalStorage(filename, type))
+                {
                     return default(T);
+                }
 
                 using (var reader = MyAPIGateway.Utilities.ReadFileInLocalStorage(filename, type))
                 {
@@ -57,7 +61,9 @@ namespace UDSERebalance.Utilities
             try
             {
                 if (MyAPIGateway.Utilities.FileExistsInWorldStorage(filename, type))
+                {
                     MyAPIGateway.Utilities.DeleteFileInWorldStorage(filename, type);
+                }
 
                 using (var writer = MyAPIGateway.Utilities.WriteFileInWorldStorage(filename, type))
                 {
@@ -77,7 +83,9 @@ namespace UDSERebalance.Utilities
             try
             {
                 if (MyAPIGateway.Utilities.FileExistsInLocalStorage(filename, type))
+                {
                     MyAPIGateway.Utilities.DeleteFileInLocalStorage(filename, type);
+                }
 
                 using (var writer = MyAPIGateway.Utilities.WriteFileInLocalStorage(filename, type))
                 {
