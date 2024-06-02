@@ -2,7 +2,7 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-pandoc -f org -t ./vendor/2bbcode/bbcode_steam.lua <readme.org >|description.bb
+pandoc -f org -t ./vendor/2bbcode/bbcode_steam.lua <readme.md >|description.bb
 
 description_size=$(wc -c < description.bb)
 if [[ $description_size -gt 7999 ]]; then
