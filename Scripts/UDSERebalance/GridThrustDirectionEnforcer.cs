@@ -112,7 +112,7 @@ namespace UDSERebalance
             
             EnsureDrivesAligned(grid);
             
-            SimpleLog.Info(this, $"Entity spawned {grid.EntityId}", true);
+            // SimpleLog.Info(this, $"Entity spawned {grid.EntityId}", true);
         }
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace UDSERebalance
             var fatBlock = slimBlock.FatBlock as MyThrust;
             if (fatBlock == null)
             {
-                SimpleLog.Error(this, $"SlimBlock has no FatBlock definition {slimBlock.BlockDefinition.Id}");
+                // SimpleLog.Error(this, $"SlimBlock has no FatBlock definition {slimBlock.BlockDefinition.Id}");
                 return;
             }
 
@@ -171,18 +171,18 @@ namespace UDSERebalance
         /// <param name="slimBlock"></param>
         private void BlockAdded(IMySlimBlock slimBlock)
         {
-            SimpleLog.Info(this, "Checking...");
+            // SimpleLog.Info(this, "Checking...");
             var defId = slimBlock.BlockDefinition.Id;
             if (!IsEpsteinDrive(defId))
             {
-                SimpleLog.Info(this, "Not a drive");
+                // SimpleLog.Info(this, "Not a drive");
                 return;
             }
 
             var fatBlock = slimBlock.FatBlock as MyThrust;
             if (fatBlock == null)
             {
-                SimpleLog.Error(this, $"SlimBlock has no FatBlock definition {slimBlock.BlockDefinition.Id}");
+                // SimpleLog.Error(this, $"SlimBlock has no FatBlock definition {slimBlock.BlockDefinition.Id}");
                 return;
             }
             
@@ -190,7 +190,7 @@ namespace UDSERebalance
             if (_drives[eId].Count == 0)
             {
                 // We gucci
-                SimpleLog.Info(this, "First drive placed");
+                // SimpleLog.Info(this, "First drive placed");
                 return;
             } 
             
@@ -198,12 +198,12 @@ namespace UDSERebalance
             {
                 // We gucci
                 _drives[slimBlock.CubeGrid.EntityId].Add(fatBlock);
-                SimpleLog.Info(this, "Drive is aligned");
+                // SimpleLog.Info(this, "Drive is aligned");
                 return;
             }
             
             // We ball
-            SimpleLog.Info(this, "Heresy detected!");
+            // SimpleLog.Info(this, "Heresy detected!");
             slimBlock.CubeGrid.RemoveBlock(slimBlock);
         }
 
