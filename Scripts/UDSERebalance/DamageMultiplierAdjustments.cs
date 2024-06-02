@@ -10,7 +10,7 @@ namespace UDSERebalance
     [MySessionComponentDescriptor(MyUpdateOrder.NoUpdate)]
     public class DamageMultiplierAdjustments : MySessionComponentBase
     {
-        readonly private List<IRemember> _originalValues = new List<IRemember>();
+        private readonly List<IRemember> _originalValues = new List<IRemember>();
 
         private void AdjustFunctionalBlocks()
         {
