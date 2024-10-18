@@ -378,7 +378,7 @@ namespace UDSERebalance
                     }
 
                     _originalValues.Add(Remember.Create(def, d => d.MaxPowerOutput, (d, v) => d.MaxPowerOutput = v,
-                        def.MaxPowerOutput * 1.2f));
+                        def.MaxPowerOutput * 2.2f));
                 }
 
                 else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_SolarPanel))
@@ -390,7 +390,7 @@ namespace UDSERebalance
                     }
 
                     _originalValues.Add(Remember.Create(def, d => def.MaxPowerOutput, (d, v) => def.MaxPowerOutput = v,
-                        def.MaxPowerOutput * 1.6f));
+                        def.MaxPowerOutput * 2.8f));
                 }
 
                 else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_HydrogenEngine))
@@ -433,12 +433,12 @@ namespace UDSERebalance
                     const int multiplier = 3;
 
                     _originalValues.Add(
-                        Remember.Create(def, d => d.MaxPowerOutput, 
+                        Remember.Create(def, d => d.MaxPowerOutput,
                             (d, v) => d.MaxPowerOutput = v,
                             def.MaxPowerOutput * multiplier));
-                    
+
                     _originalValues.Add(
-                        Remember.Create(def, d => d.MaxStoredPower, 
+                        Remember.Create(def, d => d.MaxStoredPower,
                             (d, v) => d.MaxStoredPower = v,
                             def.MaxStoredPower * multiplier));
                 }
