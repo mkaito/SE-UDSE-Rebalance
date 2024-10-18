@@ -22,7 +22,7 @@ namespace UDSERebalance
         {
             // Player character adjustments
             foreach (var myCharacterDefinition in
-                     MyDefinitionManager.Static.Characters.Where(def => def.UsableByPlayer))
+                MyDefinitionManager.Static.Characters.Where(def => def.UsableByPlayer))
             {
                 if (_modSaveData.NerfJetpack)
                 {
@@ -50,7 +50,33 @@ namespace UDSERebalance
                     _originalValues.Add(Remember.Create(myCharacterDefinition, d => d.OxygenConsumptionMultiplier,
                         (d, v) => d.OxygenConsumptionMultiplier = v, 12));
                 }
+
+                // Increase suit oxygen capacity
+                if (_modSaveData.BoostOxygenCapacity)
+                {
+                    var oxygenTank = myCharacterDefinition.SuitResourceStorage.Find(x => x.Id.SubtypeName == "Oxygen");
+                    _originalValues.Add(Remember.Create(oxygenTank, d => d.MaxCapacity,
+                        (d, v) => d.MaxCapacity = v, 8));
+                }
             }
+
+            // Increase oxygen bottle capacity
+            if (_modSaveData.BoostOxygenCapacity)
+            {
+                var oxygenBottle = MyDefinitionManager.Static.GetAllDefinitions()
+                        .Select(myDefinitionBase => myDefinitionBase as MyPhysicalItemDefinition)
+                        .Where(myPhysicalItemDefinition => myPhysicalItemDefinition.Id.SubtypeName == "OxygenBottle")
+                        .First() as MyOxygenContainerDefinition;
+
+                if (oxygenBottle != null)
+                {
+                    _originalValues.Add(Remember.Create(oxygenBottle, d => d.Capacity,
+                        (d, v) => d.Capacity = v, 8));
+                }
+
+
+            }
+
 
             // Block adjustments
             foreach (var myCubeBlockDefinition in MyDefinitionManager.Static.GetAllDefinitions()
@@ -447,8 +473,9 @@ namespace UDSERebalance
                 _modSaveData = new SaveData
                 {
                     BoostOxygenConsumption = true,
+                    BoostOxygenCapacity = false,
                     NerfJetpack = true,
-                    LaserAntennaRequireLos = false
+                    LaserAntennaRequireLos = true
                 };
 
                 Config.WriteFileToWorldStorage("rebalance.xml", typeof(SaveData), _modSaveData);
