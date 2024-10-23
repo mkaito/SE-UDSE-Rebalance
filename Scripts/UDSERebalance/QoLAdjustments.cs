@@ -65,7 +65,7 @@ namespace UDSERebalance
             {
                 var oxygenBottle = MyDefinitionManager.Static.GetAllDefinitions()
                         .Select(myDefinitionBase => myDefinitionBase as MyPhysicalItemDefinition)
-                        .Where(myPhysicalItemDefinition => myPhysicalItemDefinition.Id.SubtypeName == "OxygenBottle")
+                        .Where(myPhysicalItemDefinition => myPhysicalItemDefinition?.Id.SubtypeId.String == "OxygenBottle")
                         .First() as MyOxygenContainerDefinition;
 
                 if (oxygenBottle != null)
