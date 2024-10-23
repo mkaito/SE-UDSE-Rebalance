@@ -237,6 +237,9 @@ namespace UDSERebalance
                 // Thrusters
                 else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_Thrust))
                 {
+                    if (!_modSaveData.ThrusterRebalance)
+                        continue;
+
                     var def = myCubeBlockDefinition as MyThrustDefinition;
                     if (def == null)
                     {
@@ -275,53 +278,87 @@ namespace UDSERebalance
                     }
 
 
+                    // Expanse Style Thruster Rebalance:
+                    // General idea: Ion and Atmospheric are power hungry but fairly efficient.
+                    // Hydrogen consumes a LOT of fuel, but is very powerful. Mostly useful as a booster.
+                    // In general, flight should be expensive. Microgravity allows for coasting, but flying in gravity should not be a routine thing.
+
+                    // General Thruster Rebalance:
+                    // All thrusters are a little stronger, favouring large grid.
+                    // H2 thrusters use a little less fuel. Electric thrusters use a little more power.
+
                     switch (def.ThrusterType.String)
                     {
-                        // General idea: Ion and Atmospheric are power hungry but fairly efficient.
-                        // Hydrogen consumes a LOT of fuel, but is very powerful. Mostly useful as a booster.
-                        // In general, flight should be expensive. Microgravity allows for coasting, but flying in gravity should not be a routine thing.
                         case "Hydrogen":
-                            // Strong but thirsty
-                            // Reference target: LG Large: 12MN, 10.59 kL/s
-                            // Vanilla reference: LG Large: 7.2MN, 4.82 kL/s
-                            _originalValues.Add(Remember.Create(def, d => def.ForceMagnitude,
-                                (d, v) => def.ForceMagnitude = v, def.ForceMagnitude * (largeGrid ? 1.75f : 1.25f)));
+                            if(_modSaveData.ExpanseStyleThrusterRebalance)
+                            {
+                                // Strong but thirsty
+                                // Reference target: LG Large: 12MN, 10.59 kL/s
+                                // Vanilla reference: LG Large: 7.2MN, 4.82 kL/s
+                                _originalValues.Add(Remember.Create(def, d => def.ForceMagnitude,
+                                    (d, v) => def.ForceMagnitude = v, def.ForceMagnitude * (largeGrid ? 1.75f : 1.25f)));
 
-                            _originalValues.Add(Remember.Create(def.FuelConverter, d => d.Efficiency,
-                                (d, v) => d.Efficiency = v, 0.18f));
+                                _originalValues.Add(Remember.Create(def.FuelConverter, d => d.Efficiency,
+                                    (d, v) => d.Efficiency = v, 0.18f));
 
-                            // Reduce effectiveness in vacuum to 50%
-                            _originalValues.Add(Remember.Create(def, d => d.MinPlanetaryInfluence,
-                                (d, v) => d.MinPlanetaryInfluence = v, 0f));
-                            _originalValues.Add(Remember.Create(def, d => d.MaxPlanetaryInfluence,
-                                (d, v) => d.MaxPlanetaryInfluence = v, 1.0f));
-                            _originalValues.Add(Remember.Create(def,
-                                d => d.EffectivenessAtMinInfluence,
-                                (d, v) => d.EffectivenessAtMinInfluence = v, 0.5f));
-                            _originalValues.Add(Remember.Create(def,
-                                d => d.EffectivenessAtMaxInfluence,
-                                (d, v) => d.EffectivenessAtMaxInfluence = v, 1.0f));
-                            _originalValues.Add(Remember.Create(def,
-                                d => d.NeedsAtmosphereForInfluence,
-                                (d, v) => d.NeedsAtmosphereForInfluence = v, true));
+                                // Reduce effectiveness in vacuum to 50%
+                                _originalValues.Add(Remember.Create(def, d => d.MinPlanetaryInfluence,
+                                    (d, v) => d.MinPlanetaryInfluence = v, 0f));
+                                _originalValues.Add(Remember.Create(def, d => d.MaxPlanetaryInfluence,
+                                    (d, v) => d.MaxPlanetaryInfluence = v, 1.0f));
+                                _originalValues.Add(Remember.Create(def,
+                                    d => d.EffectivenessAtMinInfluence,
+                                    (d, v) => d.EffectivenessAtMinInfluence = v, 0.5f));
+                                _originalValues.Add(Remember.Create(def,
+                                    d => d.EffectivenessAtMaxInfluence,
+                                    (d, v) => d.EffectivenessAtMaxInfluence = v, 1.0f));
+                                _originalValues.Add(Remember.Create(def,
+                                    d => d.NeedsAtmosphereForInfluence,
+                                    (d, v) => d.NeedsAtmosphereForInfluence = v, true));
+                            } else
+                            {
+                                _originalValues.Add(Remember.Create(def, d => def.ForceMagnitude,
+                                    (d, v) => def.ForceMagnitude = v, def.ForceMagnitude * (largeGrid ? 1.35f : 1.15f)));
+
+                                _originalValues.Add(Remember.Create(def.FuelConverter, d => d.Efficiency,
+                                    (d, v) => d.Efficiency = v, 0.85f));
+                            }
                             break;
 
                         case "Ion":
-                            // Very, very low power. Prefer using Epstein and REX in space, but Ion might have niche
-                            // use cases.
-                            _originalValues.Add(Remember.Create(def, d => def.ForceMagnitude,
-                                (d, v) => def.ForceMagnitude = v, def.ForceMagnitude * (largeGrid ? 0.10f : 0.15f)));
-                            _originalValues.Add(Remember.Create(def, d => d.MaxPowerConsumption,
-                                (d, v) => d.MaxPowerConsumption = v, def.MaxPowerConsumption * 0.05f));
+                            if(_modSaveData.ExpanseStyleThrusterRebalance)
+                            {
+                                // Very, very low power. Prefer using Epstein and REX in space, but Ion might have niche
+                                // use cases.
+                                _originalValues.Add(Remember.Create(def, d => def.ForceMagnitude,
+                                    (d, v) => def.ForceMagnitude = v, def.ForceMagnitude * (largeGrid ? 0.10f : 0.15f)));
+                                _originalValues.Add(Remember.Create(def, d => d.MaxPowerConsumption,
+                                    (d, v) => d.MaxPowerConsumption = v, def.MaxPowerConsumption * 0.05f));
+                            } else
+                            {
+                                _originalValues.Add(Remember.Create(def, d => def.ForceMagnitude,
+                                    (d, v) => def.ForceMagnitude = v, def.ForceMagnitude * (largeGrid ? 1.50f : 1.35f)));
+                                _originalValues.Add(Remember.Create(def, d => d.MaxPowerConsumption,
+                                    (d, v) => d.MaxPowerConsumption = v, def.MaxPowerConsumption * 1.15f));
+                            }
                             break;
 
                         case "Atmospheric":
-                            // Quite strong and efficient. Mind the 30% atmosphere gap though. To actually make it to space, you'll
-                            // need Epstein or Hydrogen boosters.
-                            _originalValues.Add(Remember.Create(def, d => def.ForceMagnitude,
-                                (d, v) => def.ForceMagnitude = v, def.ForceMagnitude * (largeGrid ? 3.00f : 2.00f)));
-                            _originalValues.Add(Remember.Create(def, d => d.MaxPowerConsumption,
-                                (d, v) => d.MaxPowerConsumption = v, def.MaxPowerConsumption * 2.80f));
+                            if (_modSaveData.ExpanseStyleThrusterRebalance)
+                            {
+                                // Quite strong. Mind the 30% atmosphere gap though. To actually make it to space, you'll
+                                // need Epstein or Hydrogen boosters.
+                                _originalValues.Add(Remember.Create(def, d => def.ForceMagnitude,
+                                    (d, v) => def.ForceMagnitude = v, def.ForceMagnitude * (largeGrid ? 3.00f : 2.00f)));
+                                _originalValues.Add(Remember.Create(def, d => d.MaxPowerConsumption,
+                                    (d, v) => d.MaxPowerConsumption = v, def.MaxPowerConsumption * 2.80f));
+                            } else
+                            {
+                                _originalValues.Add(Remember.Create(def, d => def.ForceMagnitude,
+                                    (d, v) => def.ForceMagnitude = v, def.ForceMagnitude * (largeGrid ? 1.85f : 1.65f)));
+                                _originalValues.Add(Remember.Create(def, d => d.MaxPowerConsumption,
+                                    (d, v) => d.MaxPowerConsumption = v, def.MaxPowerConsumption * 1.15f));
+                            }
                             break;
                     }
                 }
@@ -475,7 +512,9 @@ namespace UDSERebalance
                     BoostOxygenConsumption = true,
                     BoostOxygenCapacity = false,
                     NerfJetpack = true,
-                    LaserAntennaRequireLos = true
+                    LaserAntennaRequireLos = true,
+                    ThrusterRebalance = true,
+                    ExpanseStyleThrusterRebalance = false,
                 };
 
                 Config.WriteFileToWorldStorage("rebalance.xml", typeof(SaveData), _modSaveData);

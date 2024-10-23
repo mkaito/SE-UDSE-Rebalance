@@ -6,5 +6,7 @@
         public bool BoostOxygenCapacity;
         public bool NerfJetpack;
         public bool LaserAntennaRequireLos;
+        public bool ThrusterRebalance;
+        public bool ExpanseStyleThrusterRebalance;
     }
 }
