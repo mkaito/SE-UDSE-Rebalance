@@ -318,10 +318,10 @@ namespace UDSERebalance
                             } else
                             {
                                 _originalValues.Add(Remember.Create(def, d => def.ForceMagnitude,
-                                    (d, v) => def.ForceMagnitude = v, def.ForceMagnitude * (largeGrid ? 1.35f : 1.15f)));
+                                    (d, v) => def.ForceMagnitude = v, def.ForceMagnitude * (largeGrid ? 1.45f : 1.85f)));
 
                                 _originalValues.Add(Remember.Create(def.FuelConverter, d => d.Efficiency,
-                                    (d, v) => d.Efficiency = v, 0.85f));
+                                    (d, v) => d.Efficiency = v, 0.65f));
                             }
                             break;
 
