@@ -8,5 +8,6 @@
         public bool LaserAntennaRequireLos;
         public bool ThrusterRebalance;
         public bool ExpanseStyleThrusterRebalance;
+        public bool EndgameJumpDrive;
     }
 }

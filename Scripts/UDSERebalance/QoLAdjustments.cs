@@ -208,6 +208,11 @@ namespace UDSERebalance
                 // Jump Drive
                 else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_JumpDrive))
                 {
+                    if (!_modSaveData.EndgameJumpDrive)
+                    {
+                        continue;
+                    }    
+
                     var def = myCubeBlockDefinition as MyJumpDriveDefinition;
                     if (def == null)
                     {
@@ -221,9 +226,6 @@ namespace UDSERebalance
                     _originalValues.Add(Remember.Create(def, d => d.PowerNeededForJump,
                         (d, v) => d.PowerNeededForJump = v,
                         def.PowerNeededForJump * (largeGrid ? 20000 : 5000)));
-
-                    _originalValues.Add(Remember.Create(def, d => d.PowerEfficiency,
-                        (d, v) => d.PowerEfficiency = v, 0.1f));
 
                     _originalValues.Add(Remember.Create(def, d => d.MaxJumpDistance,
                         (d, v) => d.MaxJumpDistance = v,
@@ -515,6 +517,7 @@ namespace UDSERebalance
                     LaserAntennaRequireLos = true,
                     ThrusterRebalance = true,
                     ExpanseStyleThrusterRebalance = false,
+                    EndgameJumpDrive = false,
                 };
 
                 Config.WriteFileToWorldStorage("rebalance.xml", typeof(SaveData), _modSaveData);
