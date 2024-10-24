@@ -460,7 +460,7 @@ namespace UDSERebalance
                     //     def.MaxPowerOutput * 0.15f));
                 }
 
-                // Increase battery max output and capacity, maintain max input
+                // Increase battery max output, input, and capacity.
                 else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_BatteryBlock))
                 {
                     var def = myCubeBlockDefinition as MyBatteryBlockDefinition;
@@ -480,6 +480,11 @@ namespace UDSERebalance
                         Remember.Create(def, d => d.MaxStoredPower,
                             (d, v) => d.MaxStoredPower = v,
                             def.MaxStoredPower * multiplier));
+
+                    _originalValues.Add(
+                        Remember.Create(def, d => d.RequiredPowerInput,
+                            (d, v) => d.RequiredPowerInput = v,
+                            def.RequiredPowerInput * multiplier * 1.25f));
                 }
 
                 // Safe Zones
