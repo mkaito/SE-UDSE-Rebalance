@@ -320,10 +320,10 @@ namespace UDSERebalance
                             } else
                             {
                                 _originalValues.Add(Remember.Create(def, d => def.ForceMagnitude,
-                                    (d, v) => def.ForceMagnitude = v, def.ForceMagnitude * (largeGrid ? 1.45f : 1.85f)));
+                                    (d, v) => def.ForceMagnitude = v, def.ForceMagnitude * (largeGrid ? 2.85f : 2.15f)));
 
                                 _originalValues.Add(Remember.Create(def.FuelConverter, d => d.Efficiency,
-                                    (d, v) => d.Efficiency = v, 0.65f));
+                                    (d, v) => d.Efficiency = v, 0.75f));
                             }
                             break;
 
@@ -339,9 +339,9 @@ namespace UDSERebalance
                             } else
                             {
                                 _originalValues.Add(Remember.Create(def, d => def.ForceMagnitude,
-                                    (d, v) => def.ForceMagnitude = v, def.ForceMagnitude * (largeGrid ? 1.50f : 1.35f)));
+                                    (d, v) => def.ForceMagnitude = v, def.ForceMagnitude * (largeGrid ? 2.20f : 1.85f)));
                                 _originalValues.Add(Remember.Create(def, d => d.MaxPowerConsumption,
-                                    (d, v) => d.MaxPowerConsumption = v, def.MaxPowerConsumption * 1.15f));
+                                    (d, v) => d.MaxPowerConsumption = v, def.MaxPowerConsumption * 1.45f));
                             }
                             break;
 
@@ -357,9 +357,9 @@ namespace UDSERebalance
                             } else
                             {
                                 _originalValues.Add(Remember.Create(def, d => def.ForceMagnitude,
-                                    (d, v) => def.ForceMagnitude = v, def.ForceMagnitude * (largeGrid ? 1.85f : 1.65f)));
+                                    (d, v) => def.ForceMagnitude = v, def.ForceMagnitude * (largeGrid ? 2.35f : 1.95f)));
                                 _originalValues.Add(Remember.Create(def, d => d.MaxPowerConsumption,
-                                    (d, v) => d.MaxPowerConsumption = v, def.MaxPowerConsumption * 1.15f));
+                                    (d, v) => d.MaxPowerConsumption = v, def.MaxPowerConsumption * 1.65f));
                             }
                             break;
                     }
