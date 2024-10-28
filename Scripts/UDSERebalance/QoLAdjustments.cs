@@ -365,6 +365,29 @@ namespace UDSERebalance
                     }
                 }
 
+                // Hydrogen tanks
+                else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_OxygenTank))
+                { 
+                    if(!_modSaveData.BoostHydrogenTankCapacity)
+                    {
+                        continue;
+                    }
+                    
+                    var def = myCubeBlockDefinition as MyGasTankDefinition;
+                    if (def == null)
+                    {
+                        continue;
+                    }
+                    
+                    if(def.StoredGasId.SubtypeName != "Hydrogen")
+                    {
+                        continue;
+                    }
+                    
+                    _originalValues.Add(Remember.Create(def, d => d.Capacity,
+                        (d, v) => d.Capacity = v, def.Capacity * 4));
+                }
+
                 // Spotlights
                 else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_ReflectorLight))
                 {
@@ -523,6 +546,7 @@ namespace UDSERebalance
                     ThrusterRebalance = true,
                     ExpanseStyleThrusterRebalance = false,
                     EndgameJumpDrive = false,
+                    BoostHydrogenTankCapacity = false,
                 };
 
                 Config.WriteFileToWorldStorage("rebalance.xml", typeof(SaveData), _modSaveData);

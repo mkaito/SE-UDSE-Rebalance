@@ -9,5 +9,6 @@
         public bool ThrusterRebalance;
         public bool ExpanseStyleThrusterRebalance;
         public bool EndgameJumpDrive;
+        public bool BoostHydrogenTankCapacity;
     }
 }
