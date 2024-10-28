@@ -45,38 +45,26 @@ namespace UDSERebalance
                 }
 
                 // Increase oxygen consumption significantly
-                if (_modSaveData.BoostOxygenConsumption)
-                {
-                    _originalValues.Add(Remember.Create(myCharacterDefinition, d => d.OxygenConsumptionMultiplier,
-                        (d, v) => d.OxygenConsumptionMultiplier = v, 12));
-                }
+                _originalValues.Add(Remember.Create(myCharacterDefinition, d => d.OxygenConsumptionMultiplier,
+                    (d, v) => d.OxygenConsumptionMultiplier = v, _modSaveData.BoostOxygenConsumption));
 
                 // Increase suit oxygen capacity
-                if (_modSaveData.BoostOxygenCapacity)
-                {
-                    var oxygenTank = myCharacterDefinition.SuitResourceStorage.Find(x => x.Id.SubtypeName == "Oxygen");
-                    _originalValues.Add(Remember.Create(oxygenTank, d => d.MaxCapacity,
-                        (d, v) => d.MaxCapacity = v, 8));
-                }
+                var oxygenTank = myCharacterDefinition.SuitResourceStorage.Find(x => x.Id.SubtypeName == "Oxygen");
+                _originalValues.Add(Remember.Create(oxygenTank, d => d.MaxCapacity,
+                    (d, v) => d.MaxCapacity = v, _modSaveData.BoostOxygenCapacity));
             }
 
             // Increase oxygen bottle capacity
-            if (_modSaveData.BoostOxygenCapacity)
+            var oxygenBottle = MyDefinitionManager.Static
+                .GetAllDefinitions()
+                .Select(myDefinitionBase => myDefinitionBase as MyPhysicalItemDefinition)
+                .First(myPhysicalItemDefinition => myPhysicalItemDefinition?.Id.SubtypeId.String == "OxygenBottle") as MyOxygenContainerDefinition;
+
+            if (oxygenBottle != null)
             {
-                var oxygenBottle = MyDefinitionManager.Static
-                    .GetAllDefinitions()
-                    .Select(myDefinitionBase => myDefinitionBase as MyPhysicalItemDefinition)
-                    .First(myPhysicalItemDefinition => myPhysicalItemDefinition?.Id.SubtypeId.String == "OxygenBottle") as MyOxygenContainerDefinition;
-
-                if (oxygenBottle != null)
-                {
-                    _originalValues.Add(Remember.Create(oxygenBottle, d => d.Capacity,
-                        (d, v) => d.Capacity = v, 8));
-                }
-
-
+                _originalValues.Add(Remember.Create(oxygenBottle, d => d.Capacity,
+                    (d, v) => d.Capacity = v, _modSaveData.BoostOxygenCapacity));
             }
-
 
             // Block adjustments
             foreach (var myCubeBlockDefinition in MyDefinitionManager.Static.GetAllDefinitions()
@@ -368,11 +356,6 @@ namespace UDSERebalance
                 // Hydrogen tanks
                 else if (myCubeBlockDefinition.Id.TypeId == typeof(MyObjectBuilder_OxygenTank))
                 { 
-                    if(!_modSaveData.BoostHydrogenTankCapacity)
-                    {
-                        continue;
-                    }
-                    
                     var def = myCubeBlockDefinition as MyGasTankDefinition;
                     if (def == null)
                     {
@@ -385,7 +368,7 @@ namespace UDSERebalance
                     }
                     
                     _originalValues.Add(Remember.Create(def, d => d.Capacity,
-                        (d, v) => d.Capacity = v, def.Capacity * 4));
+                        (d, v) => d.Capacity = v, def.Capacity * _modSaveData.BoostHydrogenTankCapacity));
                 }
 
                 // Spotlights
@@ -537,18 +520,7 @@ namespace UDSERebalance
             _modSaveData = Config.ReadFileFromWorldStorage<SaveData>("rebalance.xml", typeof(SaveData));
             if (_modSaveData == null)
             {
-                _modSaveData = new SaveData
-                {
-                    BoostOxygenConsumption = true,
-                    BoostOxygenCapacity = false,
-                    NerfJetpack = true,
-                    LaserAntennaRequireLos = true,
-                    ThrusterRebalance = true,
-                    ExpanseStyleThrusterRebalance = false,
-                    EndgameJumpDrive = false,
-                    BoostHydrogenTankCapacity = false,
-                };
-
+                _modSaveData = new SaveData();
                 Config.WriteFileToWorldStorage("rebalance.xml", typeof(SaveData), _modSaveData);
             }
 
@@ -561,8 +533,6 @@ namespace UDSERebalance
             {
                 r.Restore();
             }
-
-            Config.WriteFileToWorldStorage("rebalance.xml", typeof(SaveData), _modSaveData);
         }
     }
 }

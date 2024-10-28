@@ -1,14 +1,15 @@
 ﻿namespace UDSERebalance.ConfigData
 {
+    // ReSharper disable ConvertToConstant.Global
     public class SaveData
     {
-        public bool BoostOxygenConsumption;
-        public bool BoostOxygenCapacity;
-        public bool NerfJetpack;
-        public bool LaserAntennaRequireLos;
-        public bool ThrusterRebalance;
-        public bool ExpanseStyleThrusterRebalance;
-        public bool EndgameJumpDrive;
-        public bool BoostHydrogenTankCapacity;
+        public float BoostOxygenConsumption { get; set; } = 12f;
+        public float BoostOxygenCapacity { get; set; } = 8f;
+        public bool NerfJetpack { get; set; } = false;
+        public bool LaserAntennaRequireLos { get; set; } = true;
+        public bool ThrusterRebalance { get; set; } = false;
+        public bool ExpanseStyleThrusterRebalance { get; set; } = false;
+        public bool EndgameJumpDrive { get; set; } = false;
+        public float BoostHydrogenTankCapacity { get; set; } = 4f;
     }
 }
