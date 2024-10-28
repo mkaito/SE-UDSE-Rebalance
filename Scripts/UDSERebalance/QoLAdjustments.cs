@@ -63,10 +63,10 @@ namespace UDSERebalance
             // Increase oxygen bottle capacity
             if (_modSaveData.BoostOxygenCapacity)
             {
-                var oxygenBottle = MyDefinitionManager.Static.GetAllDefinitions()
-                        .Select(myDefinitionBase => myDefinitionBase as MyPhysicalItemDefinition)
-                        .Where(myPhysicalItemDefinition => myPhysicalItemDefinition?.Id.SubtypeId.String == "OxygenBottle")
-                        .First() as MyOxygenContainerDefinition;
+                var oxygenBottle = MyDefinitionManager.Static
+                    .GetAllDefinitions()
+                    .Select(myDefinitionBase => myDefinitionBase as MyPhysicalItemDefinition)
+                    .First(myPhysicalItemDefinition => myPhysicalItemDefinition?.Id.SubtypeId.String == "OxygenBottle") as MyOxygenContainerDefinition;
 
                 if (oxygenBottle != null)
                 {
