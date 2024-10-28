@@ -51,7 +51,7 @@ namespace UDSERebalance
                 // Increase suit oxygen capacity
                 var oxygenTank = myCharacterDefinition.SuitResourceStorage.Find(x => x.Id.SubtypeName == "Oxygen");
                 _originalValues.Add(Remember.Create(oxygenTank, d => d.MaxCapacity,
-                    (d, v) => d.MaxCapacity = v, _modSaveData.BoostOxygenCapacity));
+                    (d, v) => d.MaxCapacity = v, oxygenTank.MaxCapacity * _modSaveData.BoostOxygenCapacity));
             }
 
             // Increase oxygen bottle capacity
@@ -63,7 +63,7 @@ namespace UDSERebalance
             if (oxygenBottle != null)
             {
                 _originalValues.Add(Remember.Create(oxygenBottle, d => d.Capacity,
-                    (d, v) => d.Capacity = v, _modSaveData.BoostOxygenCapacity));
+                    (d, v) => d.Capacity = v, oxygenBottle.Capacity * _modSaveData.BoostOxygenCapacity));
             }
 
             // Block adjustments
